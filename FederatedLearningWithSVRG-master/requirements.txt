@@ -1,7 +1,0 @@
-numpy
-scipy
-tensorflow-gpu
-Pillow
-matplotlib
-jupyter
-tqdm

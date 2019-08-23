@@ -15,6 +15,9 @@ class Client(object):
     def set_params(self, model_params):
         '''set model parameters'''
         self.model.set_params(model_params)
+        
+    def set_gradientParam(self, preG, preGn):
+        self.model.set_gradientParam(preG, preGn)
 
     def set_vzero(self,vzero):
         self.model.set_vzero(vzero)

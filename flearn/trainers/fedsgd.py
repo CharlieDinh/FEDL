@@ -76,7 +76,7 @@ class Server(BaseFedarated):
                 grads = c.get_raw_grads()
                 c.set_vzero(grads)
                 # solve minimization locally
-                soln, stats = c.solve_inner(self.optimizer,
+                soln,grads, stats = c.solve_inner(self.optimizer,
                                             num_epochs=self.num_epochs, batch_size=self.batch_size)
 
                 # gather solutions from client
@@ -108,7 +108,7 @@ class Server(BaseFedarated):
         if(self.parameters['lamb'] > 0):
             prox = 1
         self.save(prox=prox, lamb=self.parameters['lamb'],
-                  learning_rate=self.parameters["learning_rate"], data_set=self.dataset, num_users=self.clients_per_round)
+                  learning_rate=self.parameters["learning_rate"], data_set=self.dataset, num_users=self.clients_per_round, batch=self.batch_size)
 
         print("Test ACC:", self.rs_glob_acc)
         print("Training ACC:", self.rs_train_acc)

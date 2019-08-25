@@ -1,7 +1,5 @@
 import numpy as np
 from tqdm import trange, tqdm
-import tensorflow as timport numpy as np
-from tqdm import trange, tqdm
 import tensorflow as tf
 from flearn.utils.tf_utils import process_grad
 from flearn.optimizer.fedl import FEDL
@@ -14,8 +12,8 @@ class Server(BaseFedarated):
         if(params["lamb"] > 0):
             self.inner_opt = PROXSGD(params['learning_rate'], params["lamb"])
         else:
-            self.inner_opt = tf.train.FEDL(params['learning_rate'])
-        self.meanGrads = 0
+            self.inner_opt = FEDL(params['learning_rate'])
+        #self.meanGrads = 0
         super(Server, self).__init__(params, learner, dataset)
 
     def train(self):
@@ -23,6 +21,7 @@ class Server(BaseFedarated):
         print("Train using FEDL")
         print('Training with {} workers ---'.format(self.clients_per_round))
         # for i in trange(self.num_rounds, desc='Round: ', ncols=120):
+        cgrads = []  # buffer for receiving previous gradient
         for i in range(self.num_rounds):
             # test model
             if i % self.eval_every == 0:
@@ -63,34 +62,39 @@ class Server(BaseFedarated):
 
             # choose K clients prop to data size
             selected_clients = self.select_clients(i, num_clients=self.clients_per_round)
-            if( i == 0): # first round: everything is zero
+            selected_client = 0
+            #if( i == 0): # first round: everything is zero
             csolns = [] # buffer for receiving client solutions
-            cgrads = [] # buffer for receiving previous gradient
+            cgrads_load = [] # buffer for receiving previous gradient
             #meanGrads = 0
 
             for c in tqdm(selected_clients, desc='Client: ', leave=False, ncols=120):
                 # communicate the latest model
 
                 c.set_params(self.latest_model)
-                if(i == 0):
-                    c.set_gradientParam(self.meanGrads,cgrads[c])
-                else:
-                    c.set_gradientParam(self.meanGrads,cgrads[c])
+                if(i != 0):
+                    c.set_gradientParam(
+                        self.meanGrads, cgrads[selected_client])
                 # solve minimization locally
-                soln, stats, grad = c.solve_inner(
+                soln, grad, stats = c.solve_inner(
                     self.optimizer, num_epochs=self.num_epochs, batch_size=self.batch_size)
-
+                if(selected_client == 0):
+                    self.meanGrads = np.array(grad)
+                else:
+                    self.meanGrads = self.meanGrads + np.array(grad)
+                #temp = temp + grad
                 # gather solutions from client
                 csolns.append(soln)
-                cgrads.append(grad)
-
+                cgrads_load.append(grad)
+                #self.meanGrads = self.meanGrads + grad
                 # track communication cost
                 self.metrics.update(rnd=i, cid=c.id, stats=stats)
-        
+                selected_client = selected_client + 1
+            cgrads = cgrads_load
             # update model
-
             self.latest_model = self.aggregate(csolns,weighted=True)
-            self.meanGrads = cgrads.sum()/ len(cgrads)
+            self.meanGrads = np.array(self.meanGrads) / len(cgrads)
+
 
         # final test model
         stats = self.test()
@@ -105,7 +109,11 @@ class Server(BaseFedarated):
         # save server model
         self.metrics.write()
         #self.save()
-        self.save(learning_rate=self.parameters["learning_rate"])
+        prox = 0
+        if(self.parameters['lamb'] > 0):
+            prox = 1
+        self.save(prox=prox, lamb=self.parameters['lamb'],
+                  learning_rate=self.parameters["learning_rate"], data_set=self.dataset, num_users=self.clients_per_round, batch=self.batch_size)
 
         print("Test ACC:", self.rs_glob_acc)
         print("Training ACC:", self.rs_train_acc)

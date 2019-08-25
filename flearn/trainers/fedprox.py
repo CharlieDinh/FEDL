@@ -102,7 +102,7 @@ class Server(BaseFedarated):
         if(self.parameters['lamb'] > 0):
             prox = 1
         self.save(prox=prox, lamb=self.parameters['lamb'],
-                  learning_rate=self.parameters["learning_rate"], data_set=self.dataset)
+                  learning_rate=self.parameters["learning_rate"], data_set=self.dataset, batch=self.batch_size)
 
         print("Test ACC:", self.rs_glob_acc)
         print("Training ACC:", self.rs_train_acc)

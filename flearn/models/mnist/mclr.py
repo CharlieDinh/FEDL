@@ -69,9 +69,9 @@ class Model(object):
                 for variable, value in zip(all_vars, model_params):
                     variable.load(value, self.sess)
 
-    def set_gradientParam(preG, preGn):
-        self.optimizer.set_preG(preG)
-        self.optimizer.set_preG(preGn)
+    def set_gradientParam(self, preG, preGn):
+        self.optimizer.set_preG(preG, self)
+        self.optimizer.set_preG(preGn, self)
 
     def get_params(self):
         with self.graph.as_default():
@@ -102,20 +102,19 @@ class Model(object):
     def solve_inner(self, optimizer, data, num_epochs=1, batch_size=32):
         '''Solves local optimization problem'''
         if (batch_size == 0):  # Full data or batch_size
-            batch_size = len(data['y'])
+            batch_size = len(data['y'])//10
 
-        if(optimizer == "fedavg"):
-            for _ in trange(num_epochs, desc='Epoch: ', leave=False, ncols=120):
-                for X, y in batch_data(data, batch_size):
-                    with self.graph.as_default():
-                        self.sess.run(self.train_op, feed_dict={
-                                      self.features: X, self.labels: y})
+        #if(optimizer == "fedavg"):
+        for _ in trange(num_epochs, desc='Epoch: ', leave=False, ncols=120):
+            for X, y in batch_data(data, batch_size):
+                with self.graph.as_default():
+                    self.sess.run(self.train_op, feed_dict={self.features: X, self.labels: y})
         soln = self.get_params()
         with self.graph.as_default():
             grad = self.sess.run(self.grads, feed_dict={self.features: data['x'], self.labels: data['y']})
         comp = num_epochs * \
             (len(data['y'])//batch_size) * batch_size * self.flops
-        return soln, comp , grad
+        return soln, grad, comp
 
     def test(self, data):
         '''

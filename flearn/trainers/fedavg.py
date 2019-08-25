@@ -67,7 +67,7 @@ class Server(BaseFedarated):
                 c.set_params(self.latest_model)
 
                 # solve minimization locally
-                soln, stats = c.solve_inner(
+                soln, grads, stats  = c.solve_inner(
                     self.optimizer, num_epochs=self.num_epochs, batch_size=self.batch_size)
 
                 # gather solutions from client

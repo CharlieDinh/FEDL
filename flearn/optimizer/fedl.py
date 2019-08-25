@@ -30,22 +30,24 @@ class FEDL(optimizer.Optimizer):
         lr_t = math_ops.cast(self._lr_t, var.dtype.base_dtype)
         preG = self.get_slot(var, "preG")
         preGn = self.get_slot(var, "preGn")
-
-        w = grad + lr_t * preG - preGn
-        var_update = state_ops.assign_sub(var, w)
+        #w = grad - + lr_t * preG - preGn
+        #- lr_t * preG + preGn
+        var_update = state_ops.assign_sub(var, lr_t*grad + lr_t*preG - preGn)
+        #var_update = state_ops.assign_sub(var, w)
 
         return control_flow_ops.group(*[var_update,])
 
-    def set_preG(self, fwzero, client):
+    def set_preG(self, preG, client):
         with client.graph.as_default():
             all_vars = tf.trainable_variables()
-            for variable, value in zip(all_vars, fwzero):
+            for variable, value in zip(all_vars, preG):
                 v = self.get_slot(variable, "preG")
                 v.load(value, client.sess)
-    def set_preGn(self, fwzero, client):
+
+    def set_preGn(self, preGn, client):
         with client.graph.as_default():
             all_vars = tf.trainable_variables()
-            for variable, value in zip(all_vars, fwzero):
+            for variable, value in zip(all_vars, preGn):
                 v = self.get_slot(variable, "preGn")
                 v.load(value, client.sess)
 

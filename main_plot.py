@@ -260,8 +260,7 @@ def plot_summary(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], learnin
     '''
 
 if __name__ == '__main__':
-    algorithms_list = ["fedsvrg", "fedsarah", "fedsgd",
-                       "fedsvrg", "fedsarah", "fedsgd"]
+    algorithms_list = ["fedfedl"]
     lamb_value = [1, 1, 0, 1, 1, 0]
     learning_rate = [0.01, 0.01, 0.01, 0.015, 0.015, 0.015]
     local_ep = [50, 50, 50, 20, 20, 20]
@@ -269,8 +268,8 @@ if __name__ == '__main__':
         plot_summary(num_users=100, loc_ep1=50, Numb_Glob_Iters=200, lamb=lamb_value,
                      learning_rate=learning_rate, algorithms_list=algorithms_list)
     else:
-        #for i in range(len(algorithms_list)):
-        #    main(num_users=10, loc_ep=local_ep[i], Numb_Glob_Iters = 400, lamb=lamb_value[i], learning_rate=learning_rate[i], alg=algorithms_list[i])
+        for i in range(len(algorithms_list)):
+            main(num_users=10, loc_ep=local_ep[i], Numb_Glob_Iters = 400, lamb=lamb_value[i], learning_rate=learning_rate[i], alg=algorithms_list[i])
 
         plot_summary(num_users=10, loc_ep1=local_ep, Numb_Glob_Iters=400, lamb=lamb_value,
                      learning_rate=learning_rate, algorithms_list=algorithms_list)

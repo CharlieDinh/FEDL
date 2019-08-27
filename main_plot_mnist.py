@@ -12,7 +12,7 @@ matplotlib.use('Agg')
 
 
 # GLOBAL PARAMETERS
-OPTIMIZERS = ['fedavg', 'fedprox', 'fedsvrg', 'fedsarah', 'fedsgd']
+OPTIMIZERS = ['fedavg', 'fedprox', 'fedsgd','fedfedl']
 
 DATASETS = ['sent140', 'nist', 'shakespeare', 'mnist', 'synthetic_iid', 'synthetic_0_0',
             'synthetic_0.5_0.5', 'synthetic_1_1', 'fashion_mnist']  # NIST is EMNIST in the paper

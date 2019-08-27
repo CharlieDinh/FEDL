@@ -7,7 +7,7 @@ import os
 
 random.seed(1)
 np.random.seed(1)
-NUM_USERS = 100  
+NUM_USERS = 10
 NUM_LABELS = 2
 # Setup directory for train/test data
 train_path = './data/train/mnist_train.json'

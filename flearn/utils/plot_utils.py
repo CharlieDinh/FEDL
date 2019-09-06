@@ -22,7 +22,7 @@ def plot_summary_one_figure(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[
             algs_lbl[i] = algs_lbl[i] + "_prox"
         algorithms_list[i] = algorithms_list[i] + \
             "_" + str(learning_rate[i]) + "_" + str(num_users) + \
-            "u" + "_" + str(batch_size) + "b"
+            "u" + "_" + str(batch_size[i]) + "b"
         train_acc[i, :], train_loss[i, :], glob_acc[i, :] = np.array(
             simple_read_data(loc_ep1[i], dataset + algorithms_list[i]))[:, :Numb_Glob_Iters]
         algs_lbl[i] = algs_lbl[i]
@@ -51,7 +51,7 @@ def plot_summary_one_figure(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[
     plt.xlabel('Number of Global Iterations')
     plt.title('Number of users: ' + str(num_users) +
               ', Lr: ' + str(learning_rate[0]))
-    #plt.ylim([train_loss.min(), 0.3])
+    #plt.ylim([train_loss.min(), 1])
     plt.savefig('train_loss.png')
 
     plt.figure(3)
@@ -59,7 +59,7 @@ def plot_summary_one_figure(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[
         plt.plot(glob_acc[i, 1:], linestyle=linestyles[i], label=algs_lbl[i])
         #plt.plot(glob_acc1[i, 1:], label=algs_lbl1[i])
     plt.legend(loc='upper right')
-    #plt.ylim([0.8, glob_acc.max()])
+    plt.ylim([0.6, glob_acc.max()])
     plt.ylabel('Test Accuracy')
     plt.xlabel('Number of Global Iterations')
     plt.title('Number of users: ' + str(num_users) +

@@ -1,16 +1,17 @@
+import h5py
+import matplotlib.pyplot as plt
 import numpy as np
 import argparse
 import importlib
 import random
 import os
 import tensorflow as tf
-from flearn.utils.model_utils import read_data
-from flearn.utils.plot_utils import plot_summary_two_figures, plot_summary_one_figure
-import h5py
-
+from flearn.utils.plot_utils import plot_summary_two_figures, plot_summary_one_figure, plot_summary_three_figures, plot_summary_three_figures_batch
+import matplotlib
+matplotlib.use('Agg')
 
 # GLOBAL PARAMETERS
-OPTIMIZERS = ['fedavg', 'fedprox', 'fedsgd','fedfedl']
+OPTIMIZERS = ['fedavg', 'fedprox', 'fedsgd', 'fedfedl']
 
 DATASETS = ['nist', 'mnist', 'fashion_mnist']  # NIST is EMNIST in the paper
 
@@ -24,14 +25,14 @@ MODEL_PARAMS = {
     'nist.cnn': (62,),
     'mnist.mclr': (10,),  # num_classes
     'mnist.cnn': (10,),  # num_classes
-    'fashion_mnist.mclr':(10,),
+    'fashion_mnist.mclr': (10,),
     'fashion_mnist.cnn': (10,),
     'shakespeare.stacked_lstm': (80, 80, 256),  # seq_len, emb_dim, num_hidden
     'synthetic.mclr': (10, )  # num_classes
 }
 
 
-def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01, alg='fedprox', weight=True, batch_size = 0, dataset = "mnist"):
+def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01, alg='fedprox', weight=True, batch_size=0, dataset="mnist"):
     ''' Parse command line arguments or load defaults '''
     parser = argparse.ArgumentParser()
 
@@ -134,7 +135,7 @@ def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_r
     return parsed, learner, optimizer
 
 
-def main(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01, alg='fedprox', weight=True, batch_size = 0, dataset = "mnist"):
+def main(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01, alg='fedprox', weight=True, batch_size=0, dataset="mnist"):
     # suppress tf warnings
     tf.logging.set_verbosity(tf.logging.WARN)
 
@@ -151,20 +152,22 @@ def main(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01
     t = optimizer(options, learner, dataset)
     t.train()
 
+
 if __name__ == '__main__':
-    algorithms_list = ["fedfedl","fedfedl","fedfedl","fedfedl","fedsgd","fedsgd","fedsgd","fedsgd"]
-    lamb_value = [0,0,0,0,0,0,0,0]
-    learning_rate = [0.0001, 0.0001,0.0001, 0.0001,0.0001, 0.0001,0.0001, 0.0001]
-    local_ep = [10,10,10,10,10,10,10,10]
-    batch_size = [0,20,50,100,0,20,50,100]
-    DATA_SET = "mnist"
+    algorithms_list = ["fedfedl", "fedsgd",
+                       "fedfedl", "fedsgd", 
+                       "fedfedl", "fedsgd"]
+    lamb_value = [0, 0, 0, 0, 0, 0]
+    learning_rate = [0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+    local_ep = [10,10, 20, 20, 50, 50]
+    batch_size = [20,20, 20, 20, 20, 20]
+    DATA_SET = "nist"
     number_users = 30
 
     for i in range(len(algorithms_list)):
-        main(num_users=number_users, loc_ep=local_ep[i], Numb_Glob_Iters=1000, lamb=lamb_value[i],learning_rate=learning_rate[i], alg=algorithms_list[i], batch_size=batch_size[i],dataset = DATA_SET)
+        main(num_users=number_users, loc_ep=local_ep[i], Numb_Glob_Iters=1000, lamb=lamb_value[i],
+             learning_rate=learning_rate[i], alg=algorithms_list[i], batch_size=batch_size[i], dataset=DATA_SET)
 
-    plot_summary_one_figure(num_users=number_users, loc_ep1=local_ep, Numb_Glob_Iters=1000, lamb=lamb_value,learning_rate=learning_rate, algorithms_list=algorithms_list, batch_size=batch_size, dataset = DATA_SET)
+    plot_summary_three_figures(num_users=number_users, loc_ep1=local_ep, Numb_Glob_Iters=800, lamb=lamb_value,
+                            learning_rate=learning_rate, algorithms_list=algorithms_list, batch_size=batch_size, dataset=DATA_SET)
     print("-- FINISH -- :",)
-
-
-

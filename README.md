@@ -1,4 +1,4 @@
-# FEDL_Over_WireLess
+# Federated Learning over Wireless Networks: Convergence Analysis and Resource Allocation
 
 This repository is for the Experiment Section of the paper:
 "Federated Learning over Wireless Networks: Convergence Analysis and Resource Allocation"

@@ -7,6 +7,7 @@ import random
 import os
 import tensorflow as tf
 from flearn.utils.plot_utils import plot_summary_two_figures, plot_summary_one_figure, plot_summary_three_figures, plot_summary_three_figures_batch
+from flearn.utils.model_utils import read_data
 import matplotlib
 matplotlib.use('Agg')
 

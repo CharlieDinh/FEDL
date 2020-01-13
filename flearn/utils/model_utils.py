@@ -12,6 +12,7 @@ def suffer_data(data):
     np.random.set_state(rng_state)
     np.random.shuffle(data_y)
     return (data_x, data_y)
+    
 def batch_data(data, batch_size):
     '''
     data is a dict := {'x': [numpy array], 'y': [numpy array]} (on one client)

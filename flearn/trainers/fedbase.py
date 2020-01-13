@@ -139,7 +139,17 @@ class BaseFedarated(object):
                 base[i] += w*v.astype(np.float64)
 
         averaged_soln = [v / total_weight for v in base]
-
-
         return averaged_soln
+
+    def aggregate_derivate(self, fsolns, weighted=True):
+        total_derivate = 0.0
+        base = [0]*len(fsolns[0][1])
+        for (f, soln) in fsolns:  # w is the number of samples
+            total_derivative += f
+            for i, v in enumerate(soln):
+                base[i] += f*v.astype(np.float64)
+
+        averaged_soln = [v / total_derivate for v in base]
+        return averaged_soln
+
 

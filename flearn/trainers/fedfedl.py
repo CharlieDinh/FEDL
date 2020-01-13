@@ -76,13 +76,12 @@ class Server(BaseFedarated):
                     c.set_gradientParam(
                         self.meanGrads, cgrads[selected_client])
                 # solve minimization locally
-                soln, grad, stats = c.solve_inner(
-                    self.optimizer, num_epochs=self.num_epochs, batch_size=self.batch_size)
+                soln, grad, stats = c.solve_inner(self.optimizer, num_epochs=self.num_epochs, batch_size=self.batch_size)
                 if(selected_client == 0):
                     self.meanGrads = np.array(grad)
                 else:
                     self.meanGrads = self.meanGrads + np.array(grad)
-                #temp = temp + grad
+
                 # gather solutions from client
                 csolns.append(soln)
                 cgrads_load.append(grad)
@@ -93,9 +92,12 @@ class Server(BaseFedarated):
             cgrads = cgrads_load
             # update model
             self.latest_model = self.aggregate(csolns,weighted=True)
-            self.meanGrads = np.array(self.meanGrads) / len(cgrads)
 
-
+            weight_derivative = 1
+            if(weight_derivative == 1):
+                 self.meanGrads = self.aggregate_derivate(cgrads,weighted=True)
+            else:
+                self.meanGrads = np.array(self.meanGrads) / len(cgrads)
         # final test model
         stats = self.test()
         # stats_train = self.train_error()

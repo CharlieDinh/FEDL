@@ -56,7 +56,7 @@ class Client(object):
         soln, grad, comp = self.model.solve_inner(optimizer,
             self.train_data, num_epochs, batch_size)
         bytes_r=self.model.size
-        return (self.num_samples, soln), grad, (bytes_w, comp, bytes_r)
+        return (self.num_samples, soln), (self.num_samples,grad), (bytes_w, comp, bytes_r)
 
     def train_error_and_loss(self):
         tot_correct, loss=self.model.test(self.train_data)

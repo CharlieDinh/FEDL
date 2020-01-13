@@ -36,9 +36,14 @@ def batch_data(data, batch_size):
 
 
 def get_random_batch_sample(data_x, data_y, batch_size):
+    num_parts = len(data_x)//batch_size + 1
     if(len(data_x) > batch_size):
-        idx = np.random.choice(list(range(len(data_x)-batch_size +1)))
-        return (data_x[idx: idx+batch_size], data_y[idx: idx+batch_size])
+        batch_idx = np.random.choice(list(range(num_parts +1)))
+        sample_index = batch_idx*batch_size
+        if(sample_index + batch_size > len(data_x)):
+            return (data_x[sample_index:], data_y[sample_index:])
+        else:
+            return (data_x[sample_index: sample_index+batch_size], data_y[sample_index: sample_index+batch_size])
     else:
         return (data_x,data_y)
 

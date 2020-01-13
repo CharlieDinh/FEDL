@@ -92,7 +92,7 @@ class Server(BaseFedarated):
             # broad cast new model 
             for c in tqdm(selected_clients, desc='Client: ', leave=False, ncols=120):
                 c.set_params(self.latest_model)
-                grad = c.get_raw_grads()
+                grad = (c.num_samples, c.get_raw_grads())
                 cgrads_load.append(grad)
                 cgrads.append(grad[1])
                 selected_client = selected_client + 1

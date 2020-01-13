@@ -67,7 +67,7 @@ class Server(BaseFedarated):
             csolns = [] # buffer for receiving client solutions
             cgrads_load = [] # buffer for receiving previous gradient
             #meanGrads = 0
-
+            weight_derivative = 1
             for c in tqdm(selected_clients, desc='Client: ', leave=False, ncols=120):
                 # communicate the latest model
 
@@ -77,27 +77,30 @@ class Server(BaseFedarated):
                         self.meanGrads, cgrads[selected_client])
                 # solve minimization locally
                 soln, grad, stats = c.solve_inner(self.optimizer, num_epochs=self.num_epochs, batch_size=self.batch_size)
-                if(selected_client == 0):
-                    self.meanGrads = np.array(grad)
-                else:
-                    self.meanGrads = self.meanGrads + np.array(grad)
+                
+                if(weight_derivative == 0):
+                    if(selected_client == 0):
+                        self.meanGrads = np.array(grad)
+                    else:
+                        self.meanGrads = self.meanGrads + np.array(grad)
 
                 # gather solutions from client
                 csolns.append(soln)
                 cgrads_load.append(grad)
+                cgrads.append(grad[1])
                 #self.meanGrads = self.meanGrads + grad
                 # track communication cost
                 self.metrics.update(rnd=i, cid=c.id, stats=stats)
                 selected_client = selected_client + 1
-            cgrads = cgrads_load
+            #cgrads = cgrads_load
             # update model
             self.latest_model = self.aggregate(csolns,weighted=True)
 
-            weight_derivative = 1
-            if(weight_derivative == 1):
-                 self.meanGrads = self.aggregate_derivate(cgrads,weighted=True)
-            else:
+            if(weight_derivative == 0):
                 self.meanGrads = np.array(self.meanGrads) / len(cgrads)
+            else:
+                self.meanGrads = self.aggregate_derivate(cgrads_load,weighted=True)
+                
         # final test model
         stats = self.test()
         # stats_train = self.train_error()

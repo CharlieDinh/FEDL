@@ -21,7 +21,6 @@ class Server(BaseFedarated):
         print("Train using FEDL")
         print('Training with {} workers ---'.format(self.clients_per_round))
         # for i in trange(self.num_rounds, desc='Round: ', ncols=120):
-        cgrads = []  # buffer for receiving previous gradient
         for i in range(self.num_rounds):
             # test model
             if i % self.eval_every == 0:
@@ -63,43 +62,31 @@ class Server(BaseFedarated):
             # choose K clients prop to data size
             selected_clients = self.select_clients(i, num_clients=self.clients_per_round)
             selected_client = 0
-            #if( i == 0): # first round: everything is zero
+
             csolns = [] # buffer for receiving client solutions
             cgrads_load = [] # buffer for receiving previous gradient
-            #meanGrads = 0
-            weight_derivative = 1
+
             for c in tqdm(selected_clients, desc='Client: ', leave=False, ncols=120):
                 # communicate the latest model
 
                 c.set_params(self.latest_model)
-                if(i != 0):
-                    c.set_gradientParam(
-                        self.meanGrads, cgrads[selected_client])
+                # get and set v0
+                pregrads = c.get_raw_grads()
+                if(i != 0): 
+                    c.set_gradientParam(self.meanGrads, pregrads)
                 # solve minimization locally
                 soln, grad, stats = c.solve_inner(self.optimizer, num_epochs=self.num_epochs, batch_size=self.batch_size)
                 
-                if(weight_derivative == 0):
-                    if(selected_client == 0):
-                        self.meanGrads = np.array(grad)
-                    else:
-                        self.meanGrads = self.meanGrads + np.array(grad)
-
                 # gather solutions from client
                 csolns.append(soln)
                 cgrads_load.append(grad)
-                cgrads.append(grad[1])
-                #self.meanGrads = self.meanGrads + grad
+
                 # track communication cost
                 self.metrics.update(rnd=i, cid=c.id, stats=stats)
                 selected_client = selected_client + 1
-            #cgrads = cgrads_load
             # update model
             self.latest_model = self.aggregate(csolns,weighted=True)
-
-            if(weight_derivative == 0):
-                self.meanGrads = np.array(self.meanGrads) / len(cgrads)
-            else:
-                self.meanGrads = self.aggregate_derivate(cgrads_load,weighted=True)
+            self.meanGrads = self.aggregate_derivate(cgrads_load,weighted=True)
                 
         # final test model
         stats = self.test()

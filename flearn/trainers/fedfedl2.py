@@ -23,7 +23,6 @@ class Server(BaseFedarated):
         print("Train using FEDL")
         print('Training with {} workers ---'.format(self.clients_per_round))
         # for i in trange(self.num_rounds, desc='Round: ', ncols=120):
-        cgrads = []  # buffer for receiving previous gradient
         for i in range(self.num_rounds):
             # test model
             if i % self.eval_every == 0:
@@ -66,15 +65,15 @@ class Server(BaseFedarated):
             selected_clients = self.select_clients(i, num_clients=self.clients_per_round)
 
             selected_client = 0
-            #if( i == 0): # first round: everything is zero
             csolns = [] # buffer for receiving client solutions
             cgrads_load = [] # buffer for receiving previous gradient
 
             for c in tqdm(selected_clients, desc='Client: ', leave=False, ncols=120):
                 # communicate the latest model
                 c.set_params(self.latest_model)
-                if(i != 0):
-                    c.set_gradientParam(self.meanGrads, cgrads[selected_client])
+                pregrads = c.get_raw_grads()
+                if(i != 0): #( algorithm run form global interation 1)
+                    c.set_gradientParam(self.meanGrads, pregrads)
                 # solve minimization locally
                 soln, _ , stats = c.solve_inner(self.optimizer, num_epochs=self.num_epochs, batch_size = self.batch_size)
                 
@@ -85,7 +84,6 @@ class Server(BaseFedarated):
                 # track communication cost
                 self.metrics.update(rnd=i, cid=c.id, stats=stats)
                 selected_client = selected_client + 1
-            #cgrads = cgrads_load
             # update model
             self.latest_model = self.aggregate(csolns,weighted=True)
 
@@ -94,14 +92,11 @@ class Server(BaseFedarated):
                 c.set_params(self.latest_model)
                 grad = (c.num_samples, c.get_raw_grads())
                 cgrads_load.append(grad)
-                cgrads.append(grad[1])
                 selected_client = selected_client + 1
                 # sent the last model to all client to cacualte the derivative 
 
             # aggregate all derivative from users
             self.meanGrads = self.aggregate_derivate(cgrads_load,weighted=True)
-
-            # send 
                 
         # final test model
         stats = self.test()

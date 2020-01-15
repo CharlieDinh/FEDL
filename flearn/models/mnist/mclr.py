@@ -71,7 +71,7 @@ class Model(object):
 
     def set_gradientParam(self, preG, preGn):
         self.optimizer.set_preG(preG, self)
-        self.optimizer.set_preG(preGn, self)
+        self.optimizer.set_preGn(preGn, self)
 
     def get_params(self):
         with self.graph.as_default():
@@ -105,7 +105,11 @@ class Model(object):
             batch_size = len(data['y'])#//10
 
         #if(optimizer == "fedavg"):
+        #data_x, data_y = suffer_data(data)
         for _ in trange(num_epochs, desc='Epoch: ', leave=False, ncols=120):
+            #X, y = get_random_batch_sample(data_x, data_y, batch_size)
+            #with self.graph.as_default():
+            #    self.sess.run(self.train_op, feed_dict={self.features: X, self.labels: y})
             for X, y in batch_data(data, batch_size):
                 with self.graph.as_default():
                     self.sess.run(self.train_op, feed_dict={self.features: X, self.labels: y})

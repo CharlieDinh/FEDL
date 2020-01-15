@@ -30,9 +30,7 @@ class FEDL(optimizer.Optimizer):
         lr_t = math_ops.cast(self._lr_t, var.dtype.base_dtype)
         preG = self.get_slot(var, "preG")
         preGn = self.get_slot(var, "preGn")
-        #w = grad - + lr_t * preG - preGn
-        #- lr_t * preG + preGn
-        var_update = state_ops.assign_sub(var, lr_t*grad + lr_t*preG - preGn)
+        var_update = state_ops.assign_sub(var, lr_t*(grad + lr_t*preG - preGn))
         #var_update = state_ops.assign_sub(var, w)
 
         return control_flow_ops.group(*[var_update,])

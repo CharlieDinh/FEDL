@@ -8,7 +8,7 @@ from tqdm import trange
 import math
 
 
-NUM_USER = 30
+NUM_USER = 100
 
 def softmax(x):
     ex = np.exp(x)
@@ -16,11 +16,18 @@ def softmax(x):
     return ex/sum_ex
 
 
-def generate_synthetic(alpha, beta, iid):
+def generate_synthetic(alpha, beta, iid, kappa):
 
-    dimension = 60
-    NUM_CLASS = 10
+    dimension = 400
+    NUM_CLASS = 2
     
+    kappa = kappa
+    if kappa == 1:
+        LAMBDA = 100
+    else:
+        LAMBDA = 1 / (kappa - 1)
+        L = 1
+        
     samples_per_user = np.random.lognormal(4, 2, (NUM_USER)).astype(int) + 50
     print(samples_per_user)
     num_samples = np.sum(samples_per_user)
@@ -53,14 +60,14 @@ def generate_synthetic(alpha, beta, iid):
 
     for i in range(NUM_USER):
 
-        W = np.random.normal(mean_W[i], 1, (dimension, NUM_CLASS))
+        W = np.random.normal(mean_W[i], 1, (dimension, NUM_CLASS)) 
         b = np.random.normal(mean_b[i], 1,  NUM_CLASS)
 
         if iid == 1:
             W = W_global
             b = b_global
 
-        xx = np.random.multivariate_normal(mean_x[i], cov_x, samples_per_user[i])
+        xx = np.random.multivariate_normal(mean_x[i], cov_x, samples_per_user[i]) + LAMBDA
         yy = np.zeros(samples_per_user[i])
 
         for j in range(samples_per_user[i]):

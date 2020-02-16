@@ -1,11 +1,14 @@
-#!/usr/bin/env python
 import numpy as np
-import os
 import json
 import random
+import os
 
 
-def generate_linear_regression_data(num_users=100, kappa=10, dim=40, noise_variance=1):
+def logit(X, W):
+    return 1 / (1 + np.exp(-np.dot(X, W)))
+
+
+def generate_logistic_regression_data(num_users=100, kappa=10, dim=40, noise_ratio=0.05):
     # For consistent results
     np.random.seed(0)
 
@@ -24,9 +27,10 @@ def generate_linear_regression_data(num_users=100, kappa=10, dim=40, noise_varia
     mean_X = np.array([np.random.randn(dim) for _ in range(num_users)])
 
     # Covariance matrix for X
-    # (L = 1, beta = 1 / kappa)
-    powers = - np.log(kappa) / np.log(dim) / 2
-    Sigma = np.diag(np.power(np.arange(dim)+1, powers))
+    Sigma = np.eye(dim)
+
+    # L = 1, beta = LAMBDA
+    LAMBDA = 100 if kappa == 1 else 1 / (kappa - 1)
 
     # Keep all users' inputs and labels in one array,
     # indexed according to indices_per_user.
@@ -35,21 +39,23 @@ def generate_linear_regression_data(num_users=100, kappa=10, dim=40, noise_varia
     X_total = np.zeros((num_total_samples, dim))
     y_total = np.zeros(num_total_samples)
 
-    max_norm = 0
     for n in range(num_users):
         # Generate data
         X_n = np.random.multivariate_normal(mean_X[n], Sigma, samples_per_user[n])
         X_total[indices_per_user[n]:indices_per_user[n+1], :] = X_n
-        max_norm = max(max_norm, np.linalg.norm(X_n.T.dot(X_n), 2) / samples_per_user[n])
-    # Normalize all X's by max_norm 
-    X_total / max_norm
 
-    # Generate weights and output
+    # Normalize all X's using LAMBDA
+    norm = np.sqrt(np.linalg.norm(X_total.T.dot(X_total), 2) / num_total_samples)
+    X_total /= norm + LAMBDA
+
+    # Generate weights and labels
     W = np.random.rand(dim)
-    y_total = X_total.dot(W)
+    y_total = logit(X_total, W)
+    y_total = np.where(y_total > 0.5, 1, 0)
 
-    # Apply noise: add \Xi to y_total with \Xi drawn from N(0, I)
-    y_total = y_total + np.sqrt(noise_variance) * np.random.randn(num_total_samples)
+    # Apply noise: randomly flip some of y_n with probability noise_ratio
+    noise = np.random.binomial(1, noise_ratio, num_total_samples)
+    y_total = np.multiply(noise - y_total, noise) + np.multiply(y_total, 1 - noise)
 
     # Save each user's data separately
     for n in range(num_users):
@@ -61,7 +67,7 @@ def generate_linear_regression_data(num_users=100, kappa=10, dim=40, noise_varia
         # print("User {} has {} samples.".format(n, samples_per_user[n]))
 
     print("=" * 80)
-    print("Generated synthetic data for linear regression successfully.")
+    print("Generated synthetic data for logistic regression successfully.")
     print("Summary of the generated data:".format(kappa))
     print("    Total # users       : {}".format(num_users))
     print("    Input dimension     : {}".format(dim))
@@ -84,7 +90,7 @@ def save_total_data():
         if not os.path.exists(path):
             os.makedirs(path)
 
-    X, y = generate_linear_regression_data(100, 2.5, 40, 0.05)
+    X, y = generate_logistic_regression_data(100, 5, 40, 0.05)
 
     # Create data structure
     train_data = {'users': [], 'user_data': {}, 'num_samples': []}

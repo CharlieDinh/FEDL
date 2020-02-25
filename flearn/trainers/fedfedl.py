@@ -12,7 +12,7 @@ class Server(BaseFedarated):
         if(params["lamb"] > 0):
             self.inner_opt = PROXSGD(params['learning_rate'], params["lamb"])
         else:
-            self.inner_opt = FEDL(params['learning_rate'])
+            self.inner_opt = FEDL(params['learning_rate'],params['hyper_learning_rate'])
         #self.meanGrads = 0
         super(Server, self).__init__(params, learner, dataset)
 
@@ -105,7 +105,7 @@ class Server(BaseFedarated):
         if(self.parameters['lamb'] > 0):
             prox = 1
         self.save(prox=prox, lamb=self.parameters['lamb'],
-                  learning_rate=self.parameters["learning_rate"], data_set=self.dataset, num_users=self.clients_per_round, batch=self.batch_size)
+                  learning_rate=str(self.parameters["learning_rate"]) + "_" + str(self.parameters["hyper_learning_rate"]), data_set=self.dataset, num_users=self.clients_per_round, batch=self.batch_size)
 
         print("Test ACC:", self.rs_glob_acc)
         print("Training ACC:", self.rs_train_acc)

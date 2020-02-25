@@ -11,14 +11,16 @@ import numpy
 class FEDL(optimizer.Optimizer):
     """Implementation of Proximal Sarah, i.e., FedProx optimizer"""
 
-    def __init__(self, learning_rate=0.001, lamb=0.001, use_locking=False, name="FEDL"):
+    def __init__(self, learning_rate=0.001,hyper_learning_rate = 0.001, lamb=0.001, use_locking=False, name="FEDL"):
         super(FEDL, self).__init__(use_locking, name)
         self._lr = learning_rate
+        self._hp_lr = hyper_learning_rate
         # Tensor versions of the constructor arguments, created in _prepare().
         self._lr_t = None
 
     def _prepare(self):
         self._lr_t = ops.convert_to_tensor(self._lr, name="learning_rate")
+        self._hp_lr_t = ops.convert_to_tensor(self._hp_lr, name="hyper_learning_rate")
 
     def _create_slots(self, var_list):
         # Create slots for the global solution.
@@ -28,9 +30,10 @@ class FEDL(optimizer.Optimizer):
 
     def _apply_dense(self, grad, var):
         lr_t = math_ops.cast(self._lr_t, var.dtype.base_dtype)
+        hp_lr_t = math_ops.cast(self._hp_lr_t, var.dtype.base_dtype)
         preG = self.get_slot(var, "preG")
         preGn = self.get_slot(var, "preGn")
-        var_update = state_ops.assign_sub(var, lr_t*(grad + lr_t*preG - preGn))
+        var_update = state_ops.assign_sub(var, lr_t*(grad + hp_lr_t*preG - preGn))
         #var_update = state_ops.assign_sub(var, w)
 
         return control_flow_ops.group(*[var_update,])

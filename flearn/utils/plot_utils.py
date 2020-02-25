@@ -24,7 +24,7 @@ def get_training_data_value(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[
 
         string_learning_rate = str(learning_rate[i])
         
-        if(algorithms_list[i] == "FEDL"):
+        if(algorithms_list[i] == "fedfedl"):
             string_learning_rate = string_learning_rate + "_" +str(hyper_learning_rate[i])
         algorithms_list[i] = algorithms_list[i] + \
             "_" + string_learning_rate + "_" + str(num_users) + \

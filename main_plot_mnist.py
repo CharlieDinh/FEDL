@@ -159,7 +159,7 @@ def main(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01
 
 
 if __name__ == '__main__':
-    algorithms_list = ["fedfedl"]
+    algorithms_list = ["fedfedl","fedsgd","fedfedl","fedsgd","fedfedl","fedsgd","fedfedl","fedfedl"]
     lamb_value = [0, 0, 0, 0, 0, 0,0, 0, 0, 0]
     learning_rate = [0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01]
     hyper_learning_rate = [0.2,0.2,0.2,0.2,0.2,0.2,1,2]

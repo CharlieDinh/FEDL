@@ -15,7 +15,7 @@
 Instruction used to generate EMNIST with 50 users:
 
 ```
-./preprocess.sh -s niid --sf 1.0 -k 0 -tf 0.8 -t sample --nu 50
+./preprocess.sh -s niid --sf 1.0 -k 0 -tf 0.8 -t sample --nu 100
 ```
 
 
@@ -23,17 +23,4 @@ Instruction used to generate EMNIST with 50 users:
 
 (Make sure to delete the rem\_user\_data, sampled\_data, test, and train subfolders in the data directory before re-running preprocess.sh.)
 
-Or you can download the dataset [here](https://drive.google.com/file/d/1QWSAN-L_llVrWZlTdj9bD6ohH3XHSTKJ/view?usp=sharing), unzip it and put the `train` and `test` folder under `data`.
-
-
-# EMNIST* Dataset
-
-Instructions used to generate EMNIST* in the paper:
-
-```
-cd data
-python my_sample.py
-```
-
-Or you can download the dataset [here](https://drive.google.com/file/d/1hnwa6YuAJBd6HAh2vZnzAK_MaxID5WT5/view?usp=sharing), unzip it and put the `train` and `test` folder under `data`.
-
+Or you can download the dataset [here](https://drive.google.com/open?id=1sHzD4IsgEI5xLy6cqwUjSGW0PwiduPHr), unzip it and put the `train` and `test` folder under `data`.

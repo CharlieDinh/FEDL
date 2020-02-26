@@ -779,3 +779,108 @@ def plot_summary_synthetic(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[
     ax.set_xlabel('Number of Global Iterations')
     ax.set_ylabel('Test Accuracy', labelpad=15)
     plt.savefig('glob_acc.png')
+
+
+
+def plot_summary_mnist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], learning_rate=[],hyper_learning_rate=[], algorithms_list=[], batch_size=0, dataset=""):
+    Numb_Algs = len(algorithms_list)
+    glob_acc, train_acc, train_loss = get_training_data_value(
+        num_users, loc_ep1, Numb_Glob_Iters, lamb, learning_rate,hyper_learning_rate, algorithms_list, batch_size, dataset)
+
+    plt.figure(1)
+
+    linestyles = ['-', '--', '-.', ':']
+    algs_lbl = ["FEDL",  "FedAvg",
+                "FEDL",  "FedAvg",
+                "FEDL",  "FedAvg",
+                "FEDL",  "FEDL"]
+
+    fig = plt.figure(figsize=(12, 4))
+    ax = fig.add_subplot(111)    # The big subplot
+    ax1 = fig.add_subplot(131)
+    ax2 = fig.add_subplot(132)
+    ax3 = fig.add_subplot(133)
+    #min = train_loss.min()
+    min = train_loss.min() - 0.01
+    max = 0.5  # train_loss.max() + 0.01
+    num_al = 2
+# Turn off axis lines and ticks of the big subplot
+    ax.spines['top'].set_color('none')
+    ax.spines['bottom'].set_color('none')
+    ax.spines['left'].set_color('none')
+    ax.spines['right'].set_color('none')
+    ax.tick_params(labelcolor='w', top='off',
+                   bottom='off', left='off', right='off')
+    for i in range(num_al):
+        stringbatch = str(batch_size[i])
+        ax1.plot(train_loss[i, 1:], linestyle=linestyles[i],
+                 label=algs_lbl[i] + " : " + '$K_l = $' + str(loc_ep1[i]) + ', $B = $' + stringbatch)
+        ax1.set_ylim([min, max])
+        ax1.legend(loc='upper right')
+
+    for i in range(num_al):
+        stringbatch = str(batch_size[i+2])
+        ax2.plot(train_loss[i+num_al, 1:], linestyle=linestyles[i],
+                 label=algs_lbl[i + num_al] + " : " + '$K_l = $' + str(loc_ep1[i+num_al]) + ', $B = $' + stringbatch)
+        ax2.set_ylim([min, max])
+        ax2.legend(loc='upper right')
+
+    for i in range(4):
+        stringbatch = str(batch_size[i+4])
+        ax3.plot(train_loss[i+num_al*2, 1:], linestyle=linestyles[i],
+                 label=algs_lbl[i + num_al*2] + " : " + '$K_l = $' + str(loc_ep1[i+num_al*2]) + ', $B = $' + stringbatch)
+        ax3.set_ylim([min, max])
+        ax3.legend(loc='upper right')
+
+    ax.set_title('FENIST', y=1.02)
+    ax.set_xlabel('Global rounds ' + '$K_g$')
+    ax.set_ylabel('Training Loss')
+    plt.savefig(dataset + str(loc_ep1[1]) +
+                'train_loss.pdf', bbox_inches='tight')
+    plt.savefig(dataset + str(loc_ep1[1]) +
+                'train_loss.png', bbox_inches='tight')
+
+    fig = plt.figure(figsize=(12, 4))
+    ax = fig.add_subplot(111)    # The big subplot
+    ax1 = fig.add_subplot(131)
+    ax2 = fig.add_subplot(132)
+    ax3 = fig.add_subplot(133)
+    #min = train_loss.min()
+    min = 0.8
+    max = glob_acc.max() + 0.01  # train_loss.max() + 0.01
+    num_al = 2
+# Turn off axis lines and ticks of the big subplot
+    ax.spines['top'].set_color('none')
+    ax.spines['bottom'].set_color('none')
+    ax.spines['left'].set_color('none')
+    ax.spines['right'].set_color('none')
+    ax.tick_params(labelcolor='w', top='off',
+                   bottom='off', left='off', right='off')
+    for i in range(num_al):
+        stringbatch = str(batch_size[i])
+        ax1.plot(glob_acc[i, 1:], linestyle=linestyles[i],
+                 label=algs_lbl[i] + " : " + '$K_l = $' + str(loc_ep1[i]) + ', $B = $' + stringbatch)
+        ax1.set_ylim([min, max])
+        ax1.legend(loc='lower right')
+
+    for i in range(num_al):
+        stringbatch = str(batch_size[i+2])
+        ax2.plot(glob_acc[i+num_al, 1:], linestyle=linestyles[i],
+                 label=algs_lbl[i + num_al] + " : " + '$K_l = $' + str(loc_ep1[i+num_al]) + ', $B = $' + stringbatch)
+        ax2.set_ylim([min, max])
+        ax2.legend(loc='lower right')
+
+    for i in range(num_al):
+        stringbatch = str(batch_size[i+2])
+        ax3.plot(glob_acc[i+num_al*2, 1:], linestyle=linestyles[i],
+                 label=algs_lbl[i + num_al*2] + " : " + '$K_l = $' + str(loc_ep1[i+num_al*2]) + ', $B = $' + stringbatch)
+        ax3.set_ylim([min, max])
+        ax3.legend(loc='lower right')
+
+    ax.set_title('FENIST', y=1.02)
+    ax.set_xlabel('Global rounds ' + '$K_g$')
+    ax.set_ylabel('Testing Accuracy', labelpad=15)
+    plt.savefig(dataset + str(loc_ep1[1]) +
+                'test_accu.pdf', bbox_inches='tight')
+    plt.savefig(dataset + str(loc_ep1[1]) +
+                'test_accu.png', bbox_inches='tight')

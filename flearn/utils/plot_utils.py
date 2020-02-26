@@ -813,26 +813,32 @@ def plot_summary_mnist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], l
                    bottom='off', left='off', right='off')
     for i in range(num_al):
         stringbatch = str(batch_size[i])
+        if(stringbatch == '0'):
+            stringbatch = '$\infty$'
         ax1.plot(train_loss[i, 1:], linestyle=linestyles[i],
-                 label=algs_lbl[i] + " : " + '$K_l = $' + str(loc_ep1[i]) + ', $B = $' + stringbatch)
+                 label=algs_lbl[i] + " : " + '$K_l = $' + str(loc_ep1[i]) + ', $B = $' + stringbatch+ ', $\eta = $'+ str(hyper_learning_rate[i]))
         ax1.set_ylim([min, max])
         ax1.legend(loc='upper right')
 
     for i in range(num_al):
         stringbatch = str(batch_size[i+2])
+        if(stringbatch == '0'):
+            stringbatch = '$\infty$'
         ax2.plot(train_loss[i+num_al, 1:], linestyle=linestyles[i],
-                 label=algs_lbl[i + num_al] + " : " + '$K_l = $' + str(loc_ep1[i+num_al]) + ', $B = $' + stringbatch)
+                 label=algs_lbl[i + num_al] + " : " + '$K_l = $' + str(loc_ep1[i+num_al]) + ', $B = $' + stringbatch+ ', $\eta = $'+ str(hyper_learning_rate[i+num_al]))
         ax2.set_ylim([min, max])
         ax2.legend(loc='upper right')
 
     for i in range(4):
         stringbatch = str(batch_size[i+4])
+        if(stringbatch == '0'):
+            stringbatch = '$\infty$'
         ax3.plot(train_loss[i+num_al*2, 1:], linestyle=linestyles[i],
-                 label=algs_lbl[i + num_al*2] + " : " + '$K_l = $' + str(loc_ep1[i+num_al*2]) + ', $B = $' + stringbatch)
+                 label=algs_lbl[i + num_al*2] + " : " + '$K_l = $' + str(loc_ep1[i+num_al*2]) + ', $B = $' + stringbatch+ ', $\eta = $'+ str(hyper_learning_rate[i+num_al*2]))
         ax3.set_ylim([min, max])
         ax3.legend(loc='upper right')
 
-    ax.set_title('FENIST', y=1.02)
+    ax.set_title('MNIST', y=1.02)
     ax.set_xlabel('Global rounds ' + '$K_g$')
     ax.set_ylabel('Training Loss')
     plt.savefig(dataset + str(loc_ep1[1]) +
@@ -858,26 +864,32 @@ def plot_summary_mnist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], l
                    bottom='off', left='off', right='off')
     for i in range(num_al):
         stringbatch = str(batch_size[i])
+        if(stringbatch == '0'):
+            stringbatch = '$\infty$'
         ax1.plot(glob_acc[i, 1:], linestyle=linestyles[i],
-                 label=algs_lbl[i] + " : " + '$K_l = $' + str(loc_ep1[i]) + ', $B = $' + stringbatch)
+                 label=algs_lbl[i] + " : " + '$K_l = $' + str(loc_ep1[i]) + ', $B = $' + stringbatch + ', $\eta = $'+ str(hyper_learning_rate[i]))
         ax1.set_ylim([min, max])
         ax1.legend(loc='lower right')
 
     for i in range(num_al):
         stringbatch = str(batch_size[i+2])
+        if(stringbatch == '0'):
+            stringbatch = '$\infty$'
         ax2.plot(glob_acc[i+num_al, 1:], linestyle=linestyles[i],
-                 label=algs_lbl[i + num_al] + " : " + '$K_l = $' + str(loc_ep1[i+num_al]) + ', $B = $' + stringbatch)
+                 label=algs_lbl[i + num_al] + " : " + '$K_l = $' + str(loc_ep1[i+num_al]) + ', $B = $' + stringbatch+ ', $\eta = $'+ str(hyper_learning_rate[i+num_al*1]))
         ax2.set_ylim([min, max])
         ax2.legend(loc='lower right')
 
-    for i in range(num_al):
-        stringbatch = str(batch_size[i+2])
+    for i in range(4):
+        stringbatch = str(batch_size[i+4])
+        if(stringbatch == '0'):
+            stringbatch = '$\infty$'
         ax3.plot(glob_acc[i+num_al*2, 1:], linestyle=linestyles[i],
-                 label=algs_lbl[i + num_al*2] + " : " + '$K_l = $' + str(loc_ep1[i+num_al*2]) + ', $B = $' + stringbatch)
+                 label=algs_lbl[i + num_al*2] + " : " + '$K_l = $' + str(loc_ep1[i+num_al*2]) + ', $B = $' + stringbatch + ', $\eta = $'+ str(hyper_learning_rate[i+num_al*2]))
         ax3.set_ylim([min, max])
         ax3.legend(loc='lower right')
 
-    ax.set_title('FENIST', y=1.02)
+    ax.set_title('MNIST', y=1.02)
     ax.set_xlabel('Global rounds ' + '$K_g$')
     ax.set_ylabel('Testing Accuracy', labelpad=15)
     plt.savefig(dataset + str(loc_ep1[1]) +

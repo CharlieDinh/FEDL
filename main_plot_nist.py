@@ -6,7 +6,7 @@ import importlib
 import random
 import os
 import tensorflow as tf
-from flearn.utils.plot_utils import plot_summary_two_figures, plot_summary_one_figure, plot_summary_three_figures, plot_summary_three_figures_batch,plot_summary_one_figure2
+from flearn.utils.plot_utils import plot_summary_two_figures, plot_summary_one_figure, plot_summary_three_figures, plot_summary_three_figures_batch, plot_summary_one_figure2, plot_summary_nist
 from flearn.utils.model_utils import read_data
 import matplotlib
 matplotlib.use('Agg')
@@ -179,12 +179,14 @@ def main(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01
 
 
 if __name__ == '__main__':
-    algorithms_list = ["fedfedl","fedsgd"]
-    lamb_value = [0, 0, 0, 0, 0, 0]
-    learning_rate = [0.01,0.01,0.01,0.01]
-    hyper_learning_rate = [1,0.1,1,0.1]
-    local_ep = [40, 40, 10, 10, 20, 20, 20, 20]
-    batch_size = [20,20]
+    algorithms_list = ["fedfedl", "fedsgd", "fedfedl",
+                       "fedfedl", "fedsgd", "fedfedl",
+                       "fedfedl", "fedsgd", "fedfedl"]
+    lamb_value = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    learning_rate = [0.01, 0.01, 0.05, 0.01, 0.01, 0.05, 0.01, 0.01, 0.05]
+    hyper_learning_rate = [1, 0, 1.5, 1, 0, 1.5, 1, 0, 1.5]
+    local_ep = [10, 10, 10, 20, 20, 20, 40, 40,40]
+    batch_size = [20, 20, 0, 20, 20, 0, 20, 20, 0]
     DATA_SET = "nist"
     number_users = 100
 
@@ -192,6 +194,6 @@ if __name__ == '__main__':
         main(num_users=number_users, loc_ep=local_ep[i], Numb_Glob_Iters=800, lamb=lamb_value[i],
              learning_rate=learning_rate[i],hyper_learning_rate=hyper_learning_rate[i],  alg=algorithms_list[i], batch_size=batch_size[i], dataset=DATA_SET)
 
-    plot_summary_one_figure2(num_users=number_users, loc_ep1=local_ep, Numb_Glob_Iters=800, lamb=lamb_value,
+    plot_summary_nist(num_users=number_users, loc_ep1=local_ep, Numb_Glob_Iters=800, lamb=lamb_value,
                                learning_rate=learning_rate, hyper_learning_rate = hyper_learning_rate, algorithms_list=algorithms_list, batch_size=batch_size, dataset=DATA_SET)
     print("-- FINISH -- :",)

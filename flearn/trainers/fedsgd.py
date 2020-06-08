@@ -30,17 +30,17 @@ class Server(BaseFedarated):
                 stats = self.test()  # have set the latest model for all clients
                 stats_train = self.train_error_and_loss()
 
-                tqdm.write('At round {} accuracy: {}'.format(
-                    i, np.sum(stats[3])*1.0/np.sum(stats[2])))  # testing accuracy
-                tqdm.write('At round {} training accuracy: {}'.format(
-                    i, np.sum(stats_train[3])*1.0/np.sum(stats_train[2])))
-                tqdm.write('At round {} training loss: {}'.format(
-                    i, np.dot(stats_train[4], stats_train[2])*1.0/np.sum(stats_train[2])))
+                if(self.dataset == "linear_synthetic"):
+                    tqdm.write('At round {} validation loss: {}'.format(i, np.dot(stats[3], stats[2])*1.0/np.sum(stats[2])))
+                    tqdm.write('At round {} training loss1: {}'.format(i, np.dot(stats_train[3], stats_train[2])*1.0/np.sum(stats_train[2])))
+                else:
+                    tqdm.write('At round {} accuracy: {}'.format(i, np.sum(stats[3])*1.0/np.sum(stats[2])))
+                    tqdm.write('At round {} training accuracy: {}'.format(i, np.sum(stats_train[3])*1.0/np.sum(stats_train[2])))
+                tqdm.write('At round {} training loss2: {}'.format(i, np.dot(stats_train[4], stats_train[2])*1.0/np.sum(stats_train[2])))
+
                 self.rs_glob_acc.append(np.sum(stats[3])*1.0/np.sum(stats[2]))
-                self.rs_train_acc.append(
-                    np.sum(stats_train[3])*1.0/np.sum(stats_train[2]))
-                self.rs_train_loss.append(
-                    np.dot(stats_train[4], stats_train[2])*1.0/np.sum(stats_train[2]))
+                self.rs_train_acc.append(np.sum(stats_train[3])*1.0/np.sum(stats_train[2]))
+                self.rs_train_loss.append(np.dot(stats_train[4], stats_train[2])*1.0/np.sum(stats_train[2]))
 
                 global_grads = np.zeros(model_len)
                 client_grads = np.zeros(model_len)

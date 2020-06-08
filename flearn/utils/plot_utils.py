@@ -45,6 +45,24 @@ def get_data_label_style(input_data = [], linestyles= [], algs_lbl = [], lamb = 
                       str(loc_ep1[i])+"e" + "_" + str(batch_size[i]) + "b")
 
     return data, lstyles, labels
+
+def average_smooth(data, window_len=20, window='hanning'):
+    results = []
+    if window_len<3:
+        return data
+    for i in range(len(data)):
+        x = data[i]
+        s=np.r_[x[window_len-1:0:-1],x,x[-2:-window_len-1:-1]]
+        #print(len(s))
+        if window == 'flat': #moving average
+            w=np.ones(window_len,'d')
+        else:
+            w=eval('numpy.'+window+'(window_len)')
+
+        y=np.convolve(w/w.sum(),s,mode='valid')
+        results.append(y[window_len-1:])
+    return np.array(results)
+
 def plot_data_with_inset(plt, title="", data=[], linestyles=[], labels=[], x_label="", y_label="",
                          legend_loc="lower right", plot_from=0, plot_to=-1,
                          axins_loc=None, axins_axis_visible=True, axins_zoom_factor=25,
@@ -637,8 +655,14 @@ def plot_summary(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], learnin
     
 def plot_summary_one_figure2(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[], learning_rate=[],hyper_learning_rate=[], algorithms_list=[], batch_size=0, dataset = ""):
     Numb_Algs = len(algorithms_list)
-    glob_acc, train_acc, train_loss = get_training_data_value(
-        num_users, loc_ep1, Numb_Glob_Iters, lamb, learning_rate,hyper_learning_rate, algorithms_list, batch_size, dataset)
+    #glob_acc, train_acc, train_loss = get_training_data_value(
+    #    num_users, loc_ep1, Numb_Glob_Iters, lamb, learning_rate,hyper_learning_rate, algorithms_list, batch_size, dataset)
+    
+    glob_acc_, train_acc_, train_loss_ = get_training_data_value(num_users, loc_ep1, Numb_Glob_Iters, lamb, learning_rate,hyper_learning_rate, algorithms_list, batch_size, dataset)
+    glob_acc =  average_smooth(glob_acc_, window='flat')
+    train_loss = average_smooth(train_loss_, window='flat')
+    train_acc = average_smooth(train_acc_, window='flat')
+    
     plt.figure(1)
     MIN = train_loss.min() - 0.001
     start = 0

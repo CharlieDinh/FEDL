@@ -38,18 +38,19 @@ class Model(object):
     def create_model(self, optimizer):
         """Model function for Linear Regression."""
         features = tf.placeholder(tf.float32, shape=[None, 40], name='features')
-        labels = tf.placeholder(tf.int64, shape=[None, ], name='labels')
+        labels = tf.placeholder(tf.float32, shape=[None, ], name='labels')
         logits = tf.layers.dense(inputs=features, units=1, activation=None, kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1))  # 0.001  #Linear layer without regularizer
         predictions = {
             "classes":logits
         }
-        loss = tf.keras.losses.mean_squared_error(labels,logits)
 
+        #loss = tf.losses.mean_squared_error(labels, logits)#.numpy()
+        # tf.sqrt(tf.reduce_mean((labels, logits)**2))
+        loss = tf.reduce_mean(tf.math.square(logits - labels))
         grads_and_vars = optimizer.compute_gradients(loss)
         grads, _ = zip(*grads_and_vars)
-        train_op = optimizer.apply_gradients(
-            grads_and_vars, global_step=tf.train.get_global_step())
-        eval_metric_ops = tf.convert_to_tensor(1)
+        train_op = optimizer.apply_gradients(grads_and_vars, global_step=tf.train.get_global_step())
+        eval_metric_ops = tf.sqrt(tf.reduce_mean((labels - predictions["classes"])**2))
         return features, labels, train_op, grads, eval_metric_ops, loss, logits
 
     def set_params(self, model_params=None):

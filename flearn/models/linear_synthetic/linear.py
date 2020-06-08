@@ -43,14 +43,15 @@ class Model(object):
         predictions = {
             "classes":logits
         }
-
         #loss = tf.losses.mean_squared_error(labels, logits)#.numpy()
         # tf.sqrt(tf.reduce_mean((labels, logits)**2))
         loss = tf.reduce_mean(tf.math.square(logits - labels))
         grads_and_vars = optimizer.compute_gradients(loss)
         grads, _ = zip(*grads_and_vars)
         train_op = optimizer.apply_gradients(grads_and_vars, global_step=tf.train.get_global_step())
-        eval_metric_ops = tf.sqrt(tf.reduce_mean((labels - predictions["classes"])**2))
+        # tf.sqrt(tf.reduce_mean((labels - predictions["classes"])**2))
+        eval_metric_ops = tf.reduce_mean(
+            tf.math.square(labels - predictions["classes"]))
         return features, labels, train_op, grads, eval_metric_ops, loss, logits
 
     def set_params(self, model_params=None):

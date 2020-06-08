@@ -662,7 +662,7 @@ def plot_summary_one_figure2(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=
     plt.ylabel('Training Loss')
     plt.xlabel('Global rounds')
     plt.title(dataset.upper())
-    plt.ylim([train_loss.min(), 0.5])
+    #plt.ylim([train_loss.min(), 0.5])
     plt.savefig(dataset.upper() + str(loc_ep1[1]) + 'train_loss.png')
     #plt.savefig(dataset + str(loc_ep1[1]) + 'train_loss.pdf')
     plt.figure(3)

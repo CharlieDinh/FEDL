@@ -36,26 +36,21 @@ class Model(object):
                 self.graph, run_meta=metadata, cmd='scope', options=opts).total_float_ops
 
     def create_model(self, optimizer):
-        """Model function for Logistic Regression."""
-        features = tf.placeholder(
-            tf.float32, shape=[None, 60], name='features')
+        """Model function for Linear Regression."""
+        features = tf.placeholder(tf.float32, shape=[None, 40], name='features')
         labels = tf.placeholder(tf.int64, shape=[None, ], name='labels')
-        logits = tf.layers.dense(inputs=features, units=self.num_classes,
-                                 kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1))
+        logits = tf.layers.dense(inputs=features, units=1, activation=None, kernel_regularizer=tf.contrib.layers.l2_regularizer(0.1))  # 0.001  #Linear layer without regularizer
         predictions = {
-            "classes": tf.argmax(input=logits, axis=1),
-            "probabilities": tf.nn.softmax(logits, name="softmax_tensor")
+            "classes":logits
         }
-        loss = tf.losses.sparse_softmax_cross_entropy(
-            labels=labels, logits=logits)
+        loss = tf.keras.losses.mean_squared_error(labels,logits)
 
         grads_and_vars = optimizer.compute_gradients(loss)
         grads, _ = zip(*grads_and_vars)
         train_op = optimizer.apply_gradients(
             grads_and_vars, global_step=tf.train.get_global_step())
-        eval_metric_ops = tf.count_nonzero(
-            tf.equal(labels, predictions["classes"]))
-        return features, labels, train_op, grads, eval_metric_ops, loss, predictions["classes"]
+        eval_metric_ops = tf.convert_to_tensor(1)
+        return features, labels, train_op, grads, eval_metric_ops, loss, logits
 
     def set_params(self, model_params=None):
         if model_params is not None:
@@ -78,8 +73,7 @@ class Model(object):
         num_samples = len(data['y'])
 
         with self.graph.as_default():
-            model_grads = self.sess.run(self.grads,
-                                        feed_dict={self.features: data['x'], self.labels: data['y']})
+            model_grads = self.sess.run(self.grads,feed_dict={self.features: data['x'], self.labels: data['y']})
             grads = process_grad(model_grads)
 
         return num_samples, grads

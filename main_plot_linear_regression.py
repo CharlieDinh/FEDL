@@ -14,7 +14,7 @@ matplotlib.use('Agg')
 # GLOBAL PARAMETERS
 OPTIMIZERS = ['fedavg', 'fedprox', 'fedsgd', 'fedfedl']
 
-DATASETS = ['nist', 'mnist', 'fashion_mnist', 'linear_regression']  # NIST is EMNIST in the paper
+DATASETS = ['nist', 'mnist', 'fashion_mnist', 'linear_synthetic']  # NIST is EMNIST in the paper
 
 MODEL_PARAMS = {
     'sent140.bag_dnn': (2,),  # num_classes
@@ -28,7 +28,7 @@ MODEL_PARAMS = {
     'mnist.cnn': (10,),  # num_classes
     'fashion_mnist.mclr': (10,),
     'fashion_mnist.cnn': (10,),
-    'shakespeare.stacked_lstm': (80, 80, 256),  # seq_len, emb_dim, num_hidden
+    'linear_synthetic.linear': (1,),  # seq_len, emb_dim, num_hidden
     'synthetic.mclr': (10, )  # num_classes
 }
 
@@ -50,7 +50,7 @@ def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_r
     parser.add_argument('--model',
                         help='name of model;',
                         type=str,
-                        default='mclr.py')  # 'stacked_lstm.py'
+                        default='linear.py')  # 'stacked_lstm.py'
     parser.add_argument('--num_rounds',
                         help='number of rounds to simulate;',
                         type=int,
@@ -116,8 +116,8 @@ def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_r
             'flearn', 'models', parsed['dataset'], parsed['model'])
 
     # mod = importlib.import_module(model_path)
-    import flearn.models.mnist.mclr as mclr
-    mod = mclr
+    import flearn.models.linear_synthetic.linear as linear
+    mod = linear
     learner = getattr(mod, 'Model')
 
     # load selected trainer
@@ -159,14 +159,14 @@ def main(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01
 
 
 if __name__ == '__main__':
-    algorithms_list = ["fedfedl","fedsgd","fedfedl","fedsgd","fedfedl","fedsgd","fedfedl","fedfedl"]
-    lamb_value = [0, 0, 0, 0, 0, 0,0, 0, 0, 0]
-    learning_rate = [0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01]
-    hyper_learning_rate = [0.2,0,0.2,0,0.2,0,2,4]
-    local_ep = [20, 20, 20, 20, 20, 20, 20, 20]
-    batch_size = [20,20,50,50,0,0,0,0]
-    DATA_SET = "mnist"
-    number_users = 100
+    algorithms_list = ["fedfedl","fedsgd"]
+    lamb_value = [0, 0]
+    learning_rate = [0.01,0.01]
+    hyper_learning_rate = [0.2,0]
+    local_ep = [20, 20]
+    batch_size = [20,20]
+    DATA_SET = "linear_synthetic"
+    number_users = 10
 
     for i in range(len(algorithms_list)):
         main(num_users=number_users, loc_ep=local_ep[i], Numb_Glob_Iters=800, lamb=lamb_value[i],

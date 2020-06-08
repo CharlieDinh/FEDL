@@ -159,14 +159,14 @@ def main(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01
 
 
 if __name__ == '__main__':
-    algorithms_list = ["fedfedl","fedsgd"]
+    algorithms_list = ["fedfedl"]
     lamb_value = [0, 0]
-    learning_rate = [0.01,0.01]
-    hyper_learning_rate = [0.2,0]
+    learning_rate = [0.001,0.001]
+    hyper_learning_rate = [0.001,0]
     local_ep = [20, 20]
     batch_size = [20,20]
     DATA_SET = "linear_synthetic"
-    number_users = 10
+    number_users = 100
 
     for i in range(len(algorithms_list)):
         main(num_users=number_users, loc_ep=local_ep[i], Numb_Glob_Iters=800, lamb=lamb_value[i],

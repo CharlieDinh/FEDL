@@ -6,6 +6,16 @@ import os
 np.random.seed(0)
 
 
+def generate_x(n_samples = 100, dim= 40, kappa= 10):
+    '''Helper function to generate data''' 
+
+    powers = - np.log(kappa) / np.log(dim) / 2
+
+    S = np.power(np.arange(dim)+1, powers)
+    X = np.random.randn(n_samples, dim) # Random standard Gaussian data
+    X *= S                              # Conditioning
+    return X, 1, 1/kappa, np.diag(S)
+
 def generate_linear_data(num_users=100, kappa=10, dim=40, noise_ratio=0.05):
 
     '''Helper function to generate data'''
@@ -17,7 +27,7 @@ def generate_linear_data(num_users=100, kappa=10, dim=40, noise_ratio=0.05):
     # Creat list data for all users 
     X_split = [[] for _ in range(num_users)]  # X for each user
     y_split = [[] for _ in range(num_users)]  # y for each user
-    samples_per_user = np.random.lognormal(4, 2, num_users).astype(int) + 50 
+    samples_per_user = np.random.lognormal(4, 2, num_users).astype(int) + 500
     indices_per_user = np.insert(samples_per_user.cumsum(), 0, 0, 0)
     num_total_samples = indices_per_user[-1]
 
@@ -112,7 +122,8 @@ def save_total_data():
 
 
 def main():
-    save_total_data()
+    generate_x()
+    #save_total_data()
 
 
 if __name__ == '__main__':

@@ -9,18 +9,22 @@ import math
 
 
 NUM_USER = 30
+def normalize_data(X):
+    
+    #nomarlize all feature of data between (-1 and 1)
+    normX = X - X.min()
+    normX = normX / (X.max() - X.min())
+    normX = normX*2-1
 
-def generate_synthetic(alpha = 0.5, beta = 0.5, iid = 0, kappa = 10):
+    # nomarlize data with respect to -1 < X.X^T < 1.
+    temp = normX.dot(normX.T)
+    return normX/np.sqrt(temp.max())
+
+def generate_synthetic(alpha = 0.5, beta = 0.5, iid = 0):
 
     # Generate parameters for controlling kappa 
     dimension = 60
     NUM_CLASS = 1
-    powers = - np.log(kappa) / np.log(dimension) / 2
-    DIM = np.arange(dimension)
-    S = np.power(DIM+1, powers)
-
-
-    # gennerate number of sample for each users
     samples_per_user = np.random.lognormal(4, 2, (NUM_USER)).astype(int) + 50
     print(samples_per_user)
     num_samples = np.sum(samples_per_user)
@@ -61,13 +65,13 @@ def generate_synthetic(alpha = 0.5, beta = 0.5, iid = 0, kappa = 10):
             b = b_global
 
         xx = np.random.multivariate_normal(mean_x[i], cov_x, samples_per_user[i])
-        xx *= S
+        nom_xx = normalize_data(xx)
         yy = np.zeros(samples_per_user[i])
 
         for j in range(samples_per_user[i]):
-            yy[j] = np.dot(xx[j], W) + b
+            yy[j] = np.dot(nom_xx[j], W) + b
 
-        X_split[i] = xx.tolist()
+        X_split[i] = nom_xx.tolist()
         y_split[i] = yy.tolist()
 
         print("{}-th users has {} exampls".format(i, len(y_split[i])))
@@ -85,7 +89,7 @@ def main():
     train_path = "data/train/mytrain.json"
     test_path = "data/test/mytest.json"
 
-    X, y = generate_synthetic(alpha=0.5, beta=0.5, iid=0,kappa = 10) # synthetic (0.5, 0.5)
+    X, y = generate_synthetic(alpha=0.5, beta=0.5, iid=0) # synthetic (0.5, 0.5)
 
 
     # Create data structure

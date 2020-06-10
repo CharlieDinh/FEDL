@@ -90,7 +90,7 @@ def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_r
                         type=int,
                         default=weight)
     parser.add_argument('--lamb',
-                        help='Penalty value for proximal term;',
+                        help='Regularization Term;',
                         type=int,
                         default=lamb)
     try:

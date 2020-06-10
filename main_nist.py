@@ -188,7 +188,7 @@ if __name__ == '__main__':
     local_ep = [10, 10, 10, 20, 20, 20, 40, 40,40]
     batch_size = [20, 20, 0, 20, 20, 0, 20, 20, 0]
     DATA_SET = "nist"
-    number_users = 100
+    number_users = 10
 
     for i in range(len(algorithms_list)):
         main(num_users=number_users, loc_ep=local_ep[i], Numb_Glob_Iters=800, lamb=lamb_value[i],

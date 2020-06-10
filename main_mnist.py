@@ -166,7 +166,7 @@ if __name__ == '__main__':
     local_ep = [20, 20, 20, 20, 20, 20, 20, 20]
     batch_size = [20,20,50,50,0,0,0,0]
     DATA_SET = "mnist"
-    number_users = 100
+    number_users = 10
 
     for i in range(len(algorithms_list)):
         main(num_users=number_users, loc_ep=local_ep[i], Numb_Glob_Iters=800, lamb=lamb_value[i],

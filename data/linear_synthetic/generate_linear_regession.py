@@ -5,6 +5,10 @@ import random
 import os
 np.random.seed(0)
 
+NUM_USER = 100
+Kappa = 10
+Dim = 40 
+Noise = 0.05
 
 def generate_x(n_samples = 100, dim= 40, kappa= 10):
     '''Helper function to generate data''' 
@@ -13,7 +17,10 @@ def generate_x(n_samples = 100, dim= 40, kappa= 10):
 
     S = np.power(np.arange(dim)+1, powers)
     X = np.random.randn(n_samples, dim) # Random standard Gaussian data
-    X *= S                              # Conditioning
+    X *= S
+    covarient_matrix = np.cov(X)
+    print("Covarient matrix:",covarient_matrix)                            # Conditioning
+    print("np.diag(S)", np.diag(S))
     return X, 1, 1/kappa, np.diag(S)
 
 def generate_linear_data(num_users=100, kappa=10, dim=40, noise_ratio=0.05):
@@ -22,6 +29,8 @@ def generate_linear_data(num_users=100, kappa=10, dim=40, noise_ratio=0.05):
     # generate power S
     powers = - np.log(kappa) / np.log(dim) / 2
     DIM = np.arange(dim)
+
+    # Covariance matrix for X
     S = np.power(DIM+1, powers)
 
     # Creat list data for all users 
@@ -34,15 +43,13 @@ def generate_linear_data(num_users=100, kappa=10, dim=40, noise_ratio=0.05):
     # Create mean of data for each user, each user will have different distribution
     mean_X = np.array([np.random.randn(dim) for _ in range(num_users)])
 
-    # Covariance matrix for X
-    Sigma = np.eye(dim)
+
     X_total = np.zeros((num_total_samples, dim))
     y_total = np.zeros(num_total_samples)
 
     for n in range(num_users):
         # Generate data
-        X_n = np.random.multivariate_normal(mean_X[n], Sigma, samples_per_user[n])
-        X_n *= S
+        X_n = np.random.multivariate_normal(mean_X[n], np.diag(S), samples_per_user[n])
         X_total[indices_per_user[n]:indices_per_user[n+1], :] = X_n
 
     # Normalize all X's using LAMBDA
@@ -87,13 +94,13 @@ def save_total_data():
         if not os.path.exists(path):
             os.makedirs(path)
 
-    X, y = generate_linear_data(100, 2, 40, 0.05)
+    X, y = generate_linear_data(NUM_USER, Kappa, Dim, Noise)
 
     # Create data structure
     train_data = {'users': [], 'user_data': {}, 'num_samples': []}
     test_data = {'users': [], 'user_data': {}, 'num_samples': []}
 
-    for i in range(100):
+    for i in range(NUM_USER):
         uname = 'f_{0:05d}'.format(i)
         combined = list(zip(X[i], y[i]))
         random.shuffle(combined)
@@ -122,8 +129,8 @@ def save_total_data():
 
 
 def main():
-    generate_x()
-    #save_total_data()
+    #generate_x()
+    save_total_data()
 
 
 if __name__ == '__main__':

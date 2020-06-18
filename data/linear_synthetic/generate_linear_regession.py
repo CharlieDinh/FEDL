@@ -59,7 +59,6 @@ def generate_linear_data(num_users=100, kappa=10, dim=40, noise_ratio=0.05):
     # Generate weights and labels
     W = np.random.rand(dim)
     y_total = X_total.dot(W)
-    noise_variance = 0.01
     y_total = y_total + np.sqrt(noise_ratio) * np.random.randn(num_total_samples)
 
     for n in range(num_users):

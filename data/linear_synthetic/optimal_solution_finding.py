@@ -12,6 +12,10 @@ import sklearn as sk
 np.random.seed(0)
 
 NUM_USER = 100
+Kappa = 10
+Dim = 40 
+Noise = 0.05
+
 
 def normalize_data(X):
 
@@ -56,7 +60,6 @@ def finding_optimal_synthetic(num_users=100, kappa=10, dim = 40, noise_ratio=0.0
     # Generate weights and labels
     W = np.random.rand(dim)
     y_total = X_total.dot(W)
-    noise_variance = 0.01
     y_total = y_total + np.sqrt(noise_ratio) * np.random.randn(num_total_samples)
     
     for n in range(num_users):
@@ -113,7 +116,7 @@ def finding_optimal_synthetic(num_users=100, kappa=10, dim = 40, noise_ratio=0.0
 
 def main():
     loss = 0
-    loss = finding_optimal_synthetic()
+    loss = finding_optimal_synthetic(NUM_USER, Kappa, Dim, Noise)
     print("loss for train data", loss)
 
 if __name__ == "__main__":

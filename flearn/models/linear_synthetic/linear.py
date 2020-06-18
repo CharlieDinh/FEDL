@@ -37,7 +37,7 @@ class Model(object):
 
     def create_model(self, optimizer):
         """Model function for Linear Regression."""
-        features = tf.placeholder(tf.float32, shape=[None, 60], name='features')
+        features = tf.placeholder(tf.float32, shape=[None, 40], name='features')
         labels = tf.placeholder(tf.float32, shape=[None, ], name='labels')
         logits = tf.layers.dense(inputs=features, units=1, activation=None)
         loss = tf.keras.losses.MSE(tf.squeeze(logits),tf.squeeze(labels))

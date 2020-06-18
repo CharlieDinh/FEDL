@@ -52,7 +52,7 @@ class Server(BaseFedarated):
                 for idx in range(len(self.clients)):
                     difference += np.sum(np.square(global_grads - local_grads[idx]))
                 difference = difference * 1.0 / len(self.clients)
-                tqdm.write('gradient difference: {}'.format(difference))
+                tqdm.write('-----gradient difference------: {}'.format(difference))
 
                 # save server model
                 self.metrics.write()

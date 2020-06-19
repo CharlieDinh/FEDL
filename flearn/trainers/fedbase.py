@@ -15,6 +15,7 @@ class BaseFedarated(object):
         # create worker nodes
         tf.reset_default_graph()
         self.client_model = learner(*params['model_params'], self.inner_opt, self.seed)
+        self.kappa = self.parameters['kappa']
         self.clients = self.setup_clients(dataset, self.client_model)
         print('{} Clients in Total'.format(len(self.clients)))
         self.latest_model = self.client_model.get_params()
@@ -100,6 +101,8 @@ class BaseFedarated(object):
         if (prox == True):
             alg = alg + "_prox_" + str(lamb)
         alg = alg + "_" + str(learning_rate) + "_" + str(num_users) + "u" + "_" + str(self.batch_size) + "b"
+        if(self.kappa > 0):
+            alg += "_" + str(self.kappa) + "k"
         with h5py.File("./results/"+'{}_{}.h5'.format(alg, self.parameters['num_epochs']), 'w') as hf:
             hf.create_dataset('rs_glob_acc', data=self.rs_glob_acc)
             hf.create_dataset('rs_train_acc', data=self.rs_train_acc)

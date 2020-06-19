@@ -6,7 +6,7 @@ import importlib
 import random
 import os
 import tensorflow as tf
-from flearn.utils.plot_utils import plot_summary_two_figures, plot_summary_one_figure2, plot_summary_three_figures, plot_summary_three_figures_batch
+from flearn.utils.plot_utils import plot_summary_two_figures, plot_summary_one_figure2, plot_summary_three_figures, plot_summary_three_figures_batch, plot_summary_mnist, plot_summary_nist
 from flearn.utils.model_utils import read_data
 import matplotlib
 matplotlib.use('Agg')
@@ -14,7 +14,7 @@ matplotlib.use('Agg')
 # GLOBAL PARAMETERS
 OPTIMIZERS = ['fedavg', 'fedprox', 'fedsgd', 'fedfedl']
 
-DATASETS = ['nist', 'mnist', 'fashion_mnist','logistic_synthetic']  # NIST is EMNIST in the paper
+DATASETS = ['nist', 'mnist', 'fashion_mnist']  # NIST is EMNIST in the paper
 
 MODEL_PARAMS = {
     'sent140.bag_dnn': (2,),  # num_classes
@@ -29,12 +29,11 @@ MODEL_PARAMS = {
     'fashion_mnist.mclr': (10,),
     'fashion_mnist.cnn': (10,),
     'shakespeare.stacked_lstm': (80, 80, 256),  # seq_len, emb_dim, num_hidden
-    'synthetic.mclr': (10, ),
-    'logistic_synthetic.mclr':(2,)  # num_classes
+    'synthetic.mclr': (10, )  # num_classes
 }
 
 
-def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01, alg='fedprox', weight=True, batch_size=0, times = 1, kappa = 0, dataset="mnist"):
+def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01,hyper_learning_rate= 0.01, alg='fedprox', weight=True, batch_size=0, dataset="mnist", times = 1, kappa = 0):
     ''' Parse command line arguments or load defaults '''
     parser = argparse.ArgumentParser()
 
@@ -77,6 +76,10 @@ def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_r
                         help='learning rate for inner solver;',
                         type=float,
                         default=learning_rate)  # 0.003
+    parser.add_argument('--hyper_learning_rate',
+                        help='learning rate for inner solver;',
+                        type=float,
+                        default=hyper_learning_rate)  # 0.001
     parser.add_argument('--mu',
                         help='constant for prox;',
                         type=float,
@@ -90,13 +93,13 @@ def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_r
                         type=int,
                         default=weight)
     parser.add_argument('--lamb',
-                        help='Regularization Term;',
+                        help='Penalty value for proximal term;',
                         type=int,
                         default=lamb)
     parser.add_argument('--times',
                         help='Number of running time;',
                         type=int,
-                        default=1)
+                        default=times)
     parser.add_argument('--kappa',
                         help='Condition number only for synthetic data;',
                         type=int,
@@ -121,7 +124,7 @@ def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_r
             'flearn', 'models', parsed['dataset'], parsed['model'])
 
     # mod = importlib.import_module(model_path)
-    import flearn.models.logistic_synthetic.mclr as mclr
+    import flearn.models.mnist.mclr as mclr
     mod = mclr
     learner = getattr(mod, 'Model')
 
@@ -144,13 +147,14 @@ def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_r
 
     return parsed, learner, optimizer
 
-def main(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01, alg='fedprox', weight=True, batch_size=0, dataset="mnist"):
+
+def main(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01,hyper_learning_rate= 0.01, alg='fedprox', weight=True, batch_size=0, dataset="mnist", time = 1):
     # suppress tf warnings
     tf.logging.set_verbosity(tf.logging.WARN)
 
     # parse command line arguments
     options, learner, optimizer = read_options(
-        num_users, loc_ep, Numb_Glob_Iters, lamb, learning_rate, alg, weight, batch_size, dataset)
+        num_users, loc_ep, Numb_Glob_Iters, lamb, learning_rate,hyper_learning_rate, alg, weight, batch_size, dataset)
 
     # read data
     train_path = os.path.join('data', options['dataset'], 'data', 'train')
@@ -161,19 +165,21 @@ def main(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01
     t = optimizer(options, learner, dataset)
     t.train()
 
-if __name__ == '__main__':
-    algorithms_list = ["fedfedl","fedsgd"]
-    lamb_value = [0, 0, 0, 0, 0, 0]
-    learning_rate = [0.1, 0.1]
-    local_ep = [ 20, 20,20, 20]
-    batch_size = [20, 20, 20,20 ]
-    DATA_SET = "logistic_synthetic"
-    number_users = 30
-    number_global_round = 600
-    for i in range(len(algorithms_list)):
-         main(num_users=number_users, loc_ep=local_ep[i], Numb_Glob_Iters=number_global_round, lamb=lamb_value[i],
-            learning_rate=learning_rate[i], alg=algorithms_list[i], batch_size=batch_size[i], kappa = kappa[i], dataset=DATA_SET)
 
-    plot_summary_one_figure2(num_users=number_users, loc_ep1=local_ep, Numb_Glob_Iters=number_global_round, lamb=lamb_value,
-                               learning_rate=learning_rate, algorithms_list=algorithms_list, batch_size=batch_size, kappa = kappa[i], dataset=DATA_SET)
+if __name__ == '__main__':
+    algorithms_list = ["fedfedl","fedsgd","fedfedl","fedsgd","fedfedl","fedsgd","fedfedl","fedfedl"]
+    lamb_value = [0, 0, 0, 0, 0, 0,0, 0, 0, 0]
+    learning_rate = [0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01]
+    hyper_learning_rate = [0.2,0,0.2,0,0.2,0,2,4]
+    local_ep = [20, 20, 20, 20, 20, 20, 20, 20]
+    batch_size = [20,20,50,50,0,0,0,0]
+    DATA_SET = "mnist"
+    number_users = 10
+    kappa = [0,1,2]
+    for i in range(len(algorithms_list)):
+        main(num_users=number_users, loc_ep=local_ep[i], Numb_Glob_Iters=800, lamb=lamb_value[i],
+             learning_rate=learning_rate[i],hyper_learning_rate=hyper_learning_rate[i],  alg=algorithms_list[i], batch_size=batch_size[i], kappa = kappa[i], dataset=DATA_SET)
+
+    plot_summary_mnist(num_users=number_users, loc_ep1=local_ep, Numb_Glob_Iters=800, lamb=lamb_value,
+                               learning_rate=learning_rate, hyper_learning_rate = hyper_learning_rate, algorithms_list=algorithms_list, batch_size=batch_size, kappa = kappa[i], dataset=DATA_SET)
     print("-- FINISH -- :",)

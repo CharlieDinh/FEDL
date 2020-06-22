@@ -34,7 +34,7 @@ MODEL_PARAMS = {
 }
 
 
-def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01, alg='fedprox', weight=True, batch_size=0, times = 1, kappa = 0, dataset="mnist"):
+def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01, alg='fedprox', weight=True, batch_size=0, times = 1, rho = 0, dataset="mnist"):
     ''' Parse command line arguments or load defaults '''
     parser = argparse.ArgumentParser()
 
@@ -97,7 +97,7 @@ def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_r
                         help='Number of running time;',
                         type=int,
                         default=1)
-    parser.add_argument('--kappa',
+    parser.add_argument('--rho',
                         help='Condition number only for synthetic data;',
                         type=int,
                         default=lamb)
@@ -172,8 +172,8 @@ if __name__ == '__main__':
     number_global_round = 600
     for i in range(len(algorithms_list)):
          main(num_users=number_users, loc_ep=local_ep[i], Numb_Glob_Iters=number_global_round, lamb=lamb_value[i],
-            learning_rate=learning_rate[i], alg=algorithms_list[i], batch_size=batch_size[i], kappa = kappa[i], dataset=DATA_SET)
+            learning_rate=learning_rate[i], alg=algorithms_list[i], batch_size=batch_size[i], rho = rho[i], dataset=DATA_SET)
 
     plot_summary_one_figure2(num_users=number_users, loc_ep1=local_ep, Numb_Glob_Iters=number_global_round, lamb=lamb_value,
-                               learning_rate=learning_rate, algorithms_list=algorithms_list, batch_size=batch_size, kappa = kappa[i], dataset=DATA_SET)
+                               learning_rate=learning_rate, algorithms_list=algorithms_list, batch_size=batch_size, rho = rho[i], dataset=DATA_SET)
     print("-- FINISH -- :",)

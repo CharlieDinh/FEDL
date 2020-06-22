@@ -12,7 +12,7 @@ import sklearn as sk
 np.random.seed(0)
 
 NUM_USER = 100
-Kappa = 10
+rho = 2
 Dim = 40 
 Noise = 0.05
 
@@ -28,9 +28,9 @@ def normalize_data(X):
     return normX/np.sqrt(temp.max())
 
 
-def finding_optimal_synthetic(num_users=100, kappa=10, dim = 40, noise_ratio=0.05):
+def finding_optimal_synthetic(num_users=100, rho=10, dim = 40, noise_ratio=0.05):
     
-    powers = - np.log(kappa) / np.log(dim) / 2
+    powers = - np.log(rho) / np.log(dim)
     DIM = np.arange(dim)
     S = np.power(DIM+1, powers)
 
@@ -54,8 +54,8 @@ def finding_optimal_synthetic(num_users=100, kappa=10, dim = 40, noise_ratio=0.0
         X_total[indices_per_user[n]:indices_per_user[n+1], :] = X_n
 
     # Normalize all X's using LAMBDA
-    norm = np.sqrt(np.linalg.norm(X_total.T.dot(X_total), 2) / num_total_samples)
-    X_total /= norm
+    #norm = np.sqrt(np.linalg.norm(X_total.T.dot(X_total), 2) / num_total_samples)
+    #X_total /= norm
 
     # Generate weights and labels
     W = np.random.rand(dim)
@@ -116,7 +116,7 @@ def finding_optimal_synthetic(num_users=100, kappa=10, dim = 40, noise_ratio=0.0
 
 def main():
     loss = 0
-    loss = finding_optimal_synthetic(NUM_USER, Kappa, Dim, Noise)
+    loss = finding_optimal_synthetic(NUM_USER, rho, Dim, Noise)
     print("loss for train data", loss)
 
 if __name__ == "__main__":

@@ -22,7 +22,7 @@ def normalize_data(X):
 
 def generate_synthetic(alpha = 0.5, beta = 0.5):
 
-    # Generate parameters for controlling kappa 
+    # Generate parameters for controlling rho 
     dimension = 60
     NUM_CLASS = 1
     samples_per_user = np.random.lognormal(4, 2, (NUM_USER)).astype(int) + 100

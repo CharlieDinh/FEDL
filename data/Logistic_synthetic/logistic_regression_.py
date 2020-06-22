@@ -9,12 +9,12 @@ def logit(X, W):
     return 1 / (1 + np.exp(-np.dot(X, W)))
 
 
-def generate_logistic_regression_data(num_users=100, kappa=10, dim=40, noise_ratio=0.05):
+def generate_logistic_regression_data(num_users=100, rho=10, dim=40, noise_ratio=0.05):
     # For consistent results
     np.random.seed(0)
 
     # Sanity check
-    assert(kappa >= 1 and num_users > 0 and dim > 0)
+    assert(rho >= 1 and num_users > 0 and dim > 0)
 
     X_split = [[] for _ in range(num_users)]  # X for each user
     y_split = [[] for _ in range(num_users)]  # y for each user
@@ -31,7 +31,7 @@ def generate_logistic_regression_data(num_users=100, kappa=10, dim=40, noise_rat
     Sigma = np.eye(dim)
 
     # L = 1, beta = LAMBDA
-    LAMBDA = 100 if kappa == 1 else 1 / (kappa - 1)
+    LAMBDA = 100 if rho == 1 else 1 / (rho - 1)
 
     # Keep all users' inputs and labels in one array,
     # indexed according to indices_per_user.
@@ -69,10 +69,10 @@ def generate_logistic_regression_data(num_users=100, kappa=10, dim=40, noise_rat
 
     print("=" * 80)
     print("Generated synthetic data for logistic regression successfully.")
-    print("Summary of the generated data:".format(kappa))
+    print("Summary of the generated data:".format(rho))
     print("    Total # users       : {}".format(num_users))
     print("    Input dimension     : {}".format(dim))
-    print("    rho                 : {}".format(kappa))
+    print("    rho                 : {}".format(rho))
     print("    Total # of samples  : {}".format(num_total_samples))
     print("    Minimum # of samples: {}".format(np.min(samples_per_user)))
     print("    Maximum # of samples: {}".format(np.max(samples_per_user)))

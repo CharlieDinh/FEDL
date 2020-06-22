@@ -6,14 +6,14 @@ import os
 np.random.seed(0)
 
 NUM_USER = 100
-Kappa = 10
+rho = 1.4
 Dim = 40 
 Noise = 0.05
 
-def generate_x(n_samples = 100, dim= 40, kappa= 10):
+def generate_x(n_samples = 100, dim= 40, rho= 10):
     '''Helper function to generate data''' 
 
-    powers = - np.log(kappa) / np.log(dim) / 2
+    powers = - np.log(rho) / np.log(dim) / 2
 
     S = np.power(np.arange(dim)+1, powers)
     X = np.random.randn(n_samples, dim) # Random standard Gaussian data
@@ -21,13 +21,13 @@ def generate_x(n_samples = 100, dim= 40, kappa= 10):
     covarient_matrix = np.cov(X)
     print("Covarient matrix:",covarient_matrix)                            # Conditioning
     print("np.diag(S)", np.diag(S))
-    return X, 1, 1/kappa, np.diag(S)
+    return X, 1, 1/rho, np.diag(S)
 
-def generate_linear_data(num_users=100, kappa=10, dim=40, noise_ratio=0.05):
+def generate_linear_data(num_users=100, rho=10, dim=40, noise_ratio=0.05):
 
     '''Helper function to generate data'''
     # generate power S
-    powers = - np.log(kappa) / np.log(dim) / 2
+    powers = - np.log(rho) / np.log(dim) / 2
     DIM = np.arange(dim)
 
     # Covariance matrix for X
@@ -71,10 +71,10 @@ def generate_linear_data(num_users=100, kappa=10, dim=40, noise_ratio=0.05):
 
     print("=" * 80)
     print("Generated synthetic data for logistic regression successfully.")
-    print("Summary of the generated data:".format(kappa))
+    print("Summary of the generated data:".format(rho))
     print("    Total # users       : {}".format(num_users))
     print("    Input dimension     : {}".format(dim))
-    print("    rho                 : {}".format(kappa))
+    print("    rho                 : {}".format(rho))
     print("    Total # of samples  : {}".format(num_total_samples))
     print("    Minimum # of samples: {}".format(np.min(samples_per_user)))
     print("    Maximum # of samples: {}".format(np.max(samples_per_user)))
@@ -93,7 +93,7 @@ def save_total_data():
         if not os.path.exists(path):
             os.makedirs(path)
 
-    X, y = generate_linear_data(NUM_USER, Kappa, Dim, Noise)
+    X, y = generate_linear_data(NUM_USER, rho, Dim, Noise)
 
     # Create data structure
     train_data = {'users': [], 'user_data': {}, 'num_samples': []}

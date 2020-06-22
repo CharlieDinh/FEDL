@@ -33,7 +33,7 @@ MODEL_PARAMS = {
 }
 
 
-def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01,hyper_learning_rate= 0.01, alg='fedprox', weight=True, batch_size=0, times = 1, kappa = 0, dataset="mnist"):
+def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01,hyper_learning_rate= 0.01, alg='fedprox', weight=True, batch_size=0, times = 1, rho = 0, dataset="mnist"):
     ''' Parse command line arguments or load defaults '''
     parser = argparse.ArgumentParser()
 
@@ -100,10 +100,10 @@ def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_r
                         help='Number of running time;',
                         type=int,
                         default=times)
-    parser.add_argument('--kappa',
+    parser.add_argument('--rho',
                         help='Condition number only for synthetic data;',
                         type=int,
-                        default=kappa)
+                        default=rho)
     try:
         parsed = vars(parser.parse_args())
     except IOError as msg:
@@ -148,13 +148,13 @@ def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_r
     return parsed, learner, optimizer
 
 
-def main(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01,hyper_learning_rate= 0.01, alg='fedprox', weight=True, batch_size=0, times =1, kappa = 0, dataset="mnist"):
+def main(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01,hyper_learning_rate= 0.01, alg='fedprox', weight=True, batch_size=0, times =1, rho = 0, dataset="mnist"):
     # suppress tf warnings
     tf.logging.set_verbosity(tf.logging.WARN)
 
     # parse command line arguments
     options, learner, optimizer = read_options(
-        num_users, loc_ep, Numb_Glob_Iters, lamb, learning_rate,hyper_learning_rate, alg, weight, batch_size, times, kappa, dataset)
+        num_users, loc_ep, Numb_Glob_Iters, lamb, learning_rate,hyper_learning_rate, alg, weight, batch_size, times, rho, dataset)
 
     # read data
     train_path = os.path.join('data', options['dataset'], 'data', 'train')
@@ -167,20 +167,20 @@ def main(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01
 
 
 if __name__ == '__main__':
-    algorithms_list = ["fedfedl"] #fedfedl
-    kappa = [5,10,20]
-    lamb_value = [0, 0, 0, 0]
-    learning_rate = [0.01,0.01,0.01,0.01]
-    hyper_learning_rate = [0.3,0.5,0.7]
-    local_ep = [20, 20, 20, 20]
-    batch_size = [0,0,0,0]
+    algorithms_list = ["fedfedl","fedfedl","fedfedl","fedfedl","fedfedl","fedfedl","fedfedl","fedfedl","fedfedl","fedfedl","fedfedl","fedfedl"] #fedfedl
+    rho = [1.4, 1.4, 1.4, 1.4,  2 ,2 , 2, 2, 5, 5, 5, 5]
+    lamb_value = [0, 0, 0, 0,  0, 0, 0, 0 , 0, 0, 0 ,0]
+    learning_rate = [0.01,0.01,0.01,0.01, 0.01,0.01,0.01,0.01, 0.01,0.01,0.01,0.01]
+    hyper_learning_rate = [0.1,0.3,0.5,0.7, 0.1,0.3,0.5,0.7, 0.1,0.3,0.5,0.7]
+    local_ep = [20, 20, 20, 20,  20, 20, 20, 20,  20, 20, 20, 20]
+    batch_size = [0,0,0,0 ,0,0,0,0, 0,0,0,0]
     DATA_SET = "linear_synthetic"
     number_users = 10
 
-    for i in range(len(algorithms_list)):
-        main(num_users=number_users, loc_ep=local_ep[i], Numb_Glob_Iters=2, lamb=lamb_value[i],
-             learning_rate=learning_rate[i],hyper_learning_rate=hyper_learning_rate[i],  alg=algorithms_list[i], batch_size=batch_size[i], kappa = kappa[i], dataset=DATA_SET)
+    #for i in range(len(algorithms_list)):
+    #    main(num_users=number_users, loc_ep=local_ep[i], Numb_Glob_Iters=200, lamb=lamb_value[i],
+    #         learning_rate=learning_rate[i],hyper_learning_rate=hyper_learning_rate[i],  alg=algorithms_list[i], batch_size=batch_size[i], rho = rho[i], dataset=DATA_SET)
 
-    plot_summary_one_figure(num_users=number_users, loc_ep1=local_ep, Numb_Glob_Iters=2, lamb=lamb_value,
-                               learning_rate=learning_rate, hyper_learning_rate = hyper_learning_rate, algorithms_list=algorithms_list, batch_size=batch_size, kappa = kappa[i], dataset=DATA_SET)
+    plot_summary_linear(num_users=number_users, loc_ep1=local_ep, Numb_Glob_Iters=200, lamb=lamb_value,
+                               learning_rate=learning_rate, hyper_learning_rate = hyper_learning_rate, algorithms_list=algorithms_list, batch_size=batch_size, rho = rho, dataset=DATA_SET)
     print("-- FINISH -- :",)

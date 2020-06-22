@@ -11,7 +11,7 @@ def simple_read_data(loc_ep, alg):
     rs_train_loss = np.array(hf.get('rs_train_loss')[:])
     return rs_train_acc, rs_train_loss, rs_glob_acc
 
-def get_training_data_value(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[], learning_rate=[],hyper_learning_rate=[],algorithms_list=[], batch_size=0, dataset=""):
+def get_training_data_value(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[], learning_rate=[],hyper_learning_rate=[],algorithms_list=[], batch_size=0, rho=[], dataset=""):
     Numb_Algs = len(algorithms_list)
     train_acc = np.zeros((Numb_Algs, Numb_Glob_Iters))
     train_loss = np.zeros((Numb_Algs, Numb_Glob_Iters))
@@ -29,7 +29,9 @@ def get_training_data_value(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[
         algorithms_list[i] = algorithms_list[i] + \
             "_" + string_learning_rate + "_" + str(num_users) + \
             "u" + "_" + str(batch_size[i]) + "b"
-       
+        if(rho[i] > 0):
+            algorithms_list[i] += "_" + str(rho[i])+"r"
+
         train_acc[i, :], train_loss[i, :], glob_acc[i, :] = np.array(
             simple_read_data(loc_ep1[i], dataset + algorithms_list[i]))[:, :Numb_Glob_Iters]
         algs_lbl[i] = algs_lbl[i]
@@ -63,12 +65,12 @@ def average_smooth(data, window_len=20, window='hanning'):
         results.append(y[window_len-1:])
     return np.array(results)
     
-def plot_summary_one_figure(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[], learning_rate=[],hyper_learning_rate=[], algorithms_list=[], batch_size=0,kappa = [], dataset = ""):
+def plot_summary_one_figure(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[], learning_rate=[],hyper_learning_rate=[], algorithms_list=[], batch_size=0, rho = [], dataset = ""):
     Numb_Algs = len(algorithms_list)
     #glob_acc, train_acc, train_loss = get_training_data_value(
     #    num_users, loc_ep1, Numb_Glob_Iters, lamb, learning_rate,hyper_learning_rate, algorithms_list, batch_size, dataset)
     
-    glob_acc_, train_acc_, train_loss_ = get_training_data_value(num_users, loc_ep1, Numb_Glob_Iters, lamb, learning_rate,hyper_learning_rate, algorithms_list, batch_size, dataset)
+    glob_acc_, train_acc_, train_loss_ = get_training_data_value(num_users, loc_ep1, Numb_Glob_Iters, lamb, learning_rate, hyper_learning_rate, algorithms_list, batch_size, rho, dataset)
     glob_acc =  average_smooth(glob_acc_, window='flat')
     train_loss = average_smooth(train_loss_, window='flat')
     train_acc = average_smooth(train_acc_, window='flat')
@@ -76,7 +78,7 @@ def plot_summary_one_figure(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[
     plt.figure(1)
     MIN = train_loss.min() - 0.001
     start = 0
-    linestyles = ['-', '--', '-.', ':', '-', '--', '-.', ':']
+    linestyles = ['-', '--', '-.', ':', '-', '--', '-.', ':', ':']
     plt.grid(True)
     for i in range(Numb_Algs):
         plt.plot(train_acc[i, 1:], linestyle=linestyles[i], label=algorithms_list[i] + str(lamb[i])+ "_"+str(loc_ep1[i])+"e" + "_" + str(batch_size[i]) + "b")
@@ -350,27 +352,26 @@ def plot_summary_nist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], le
     plt.savefig(dataset + str(loc_ep1[1]) + 'test_accu.pdf', bbox_inches='tight')
     plt.savefig(dataset + str(loc_ep1[1]) + 'test_accu.png', bbox_inches='tight')
 
-def plot_summary_linear(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[], learning_rate=[],hyper_learning_rate=[], algorithms_list=[], batch_size=0, dataset = "", kappa = []):
+def plot_summary_linear(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[], learning_rate=[],hyper_learning_rate=[], algorithms_list=[], batch_size=0,rho = [], dataset = ""):
 
     Numb_Algs = len(algorithms_list)
-    glob_acc, train_acc, train_loss = get_training_data_value( num_users, loc_ep1, Numb_Glob_Iters, lamb, learning_rate, hyper_learning_rate, algorithms_list, batch_size, dataset)
+    glob_acc, train_acc, train_loss = get_training_data_value( num_users, loc_ep1, Numb_Glob_Iters, lamb, learning_rate, hyper_learning_rate, algorithms_list, batch_size, rho, dataset)
     for i in range(Numb_Algs):
         print(algorithms_list[i], "loss:", glob_acc[i].max())
     plt.figure(1)
 
-    linestyles = ['-', '--', '-.']
-    algs_lbl = ["FEDL","FEDL", "FEDL",
-                "FEDL", "FEDL", "FEDL",
-                "FEDL", "FEDL", "FEDL"]
+    linestyles = ['-', '-', '-', '-']
+    markers = ["o","v","s","*","x","P"]
+    algs_lbl = ["FEDL","FEDL", "FEDL","FEDL",
+                "FEDL", "FEDL", "FEDL","FEDL",
+                "FEDL", "FEDL", "FEDL","FEDL"]
     fig = plt.figure(figsize=(12, 4))
     ax = fig.add_subplot(111)    # The big subplot
     ax1 = fig.add_subplot(131)
     ax2 = fig.add_subplot(132)
     ax3 = fig.add_subplot(133)
     #min = train_loss.min()
-    min = train_loss.min() - 0.01
-    max = 2.5  # train_loss.max() + 0.01
-    num_al = 3
+    num_al = 4
 # Turn off axis lines and ticks of the big subplot
     ax.spines['top'].set_color('none')
     ax.spines['bottom'].set_color('none')
@@ -379,24 +380,32 @@ def plot_summary_linear(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[], l
     ax.tick_params(labelcolor='w', top='off',
                    bottom='off', left='off', right='off')
     for i in range(num_al):
-        stringbatch = str(batch_size[i])
-        ax1.plot(train_loss[i, 1:], linestyle=linestyles[i], label=algs_lbl[i] + ', $\eta = $' + str(hyper_learning_rate[i]) + ', $\kappa  = $' + str(kappa[i]))
-        ax1.set_ylim([min, max])
-        ax1.legend(loc='upper right')
+        ax1.plot(train_loss[i, 1:], linestyle=linestyles[i], label=algs_lbl[i] + ": "+ '$\eta = $' + str(hyper_learning_rate[i]) ,marker = markers[i],markevery=0.4, markersize=5)
 
+    ax1.hlines(y=0.035,xmin=0, xmax=200, linestyle='--',label = "optimal solution")
+    ax1.legend(loc='upper right')
+    ax1.set_ylim([0.02, 0.6])
+    ax1.set_title('$\\rho = $' + str(rho[0]))
+    ax1.grid(True)
     for i in range(num_al):
-        stringbatch = str(batch_size[i+num_al])
-        ax2.plot(train_loss[i+num_al, 1:], linestyle=linestyles[i], label=algs_lbl[i + num_al] + ', $\eta = $' + str(hyper_learning_rate[i+num_al]) + ', $\kappa  = $' + str(kappa[i+ num_al]))
-        ax2.set_ylim([min, max])
-        ax2.legend(loc='upper right')
+        str_rho = ', $\eta  = $' + str(rho[i])
+        ax2.plot(train_loss[i+num_al, 1:], linestyle=linestyles[i], label=algs_lbl[i + num_al] + ": "+ '$\eta = $' + str(hyper_learning_rate[i+num_al]) ,marker = markers[i],markevery=0.4, markersize=5)
 
+    ax2.hlines(y=0.035,xmin=0, xmax=200, linestyle='--',label = "optimal solution")
+    ax2.set_ylim([0.02, 0.6])
+    #ax2.legend(loc='upper right')
+    ax2.set_title('$\\rho = $' + str(rho[0+ num_al]))
+    ax2.grid(True)
     for i in range(num_al):
-        stringbatch = str(batch_size[i+num_al*2])
-        ax3.plot(train_loss[i+num_al*2, 1:], linestyle=linestyles[i], label=algs_lbl[i + num_al*2] + " : " + str(hyper_learning_rate[i+num_al*2]) + ', $\kappa  = $' + str(kappa[i+ 2*num_al]))
-        ax3.set_ylim([min, max])
-        ax3.legend(loc='upper right')
-
-    ax.set_title('Linear Synthetic', y=1.02)
+        str_rho = ', $\rho  = $' + str(rho[i])
+        ax3.plot(train_loss[i+num_al*2, 1:], linestyle=linestyles[i], label=algs_lbl[i + num_al*2]  + ": "+  '$\eta = $'  + str(hyper_learning_rate[i+num_al*2]) ,marker = markers[i], markevery=0.4, markersize=5)
+        
+    ax3.hlines(y=0.035,xmin=0, xmax=200, linestyle='--',label = "optimal solution")
+    ax3.set_ylim([0.02, 0.6])
+    #ax3.legend(loc='upper right')
+    ax3.set_title('$\\rho = $' + str(rho[0+ 2*num_al]))
+    ax3.grid(True)
+    ax.set_title('Linear Synthetic', y=1.1)
     ax.set_xlabel('Global rounds ' + '$K_g$')
     ax.set_ylabel('Training Loss')
     plt.savefig(dataset + str(loc_ep1[1]) + 'train_loss.pdf', bbox_inches='tight')

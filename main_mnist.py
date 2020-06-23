@@ -168,6 +168,7 @@ def main(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01
 
 if __name__ == '__main__':
     algorithms_list = ["fedfedl","fedsgd","fedfedl","fedsgd","fedfedl","fedsgd","fedfedl","fedfedl"]
+    rho = [0,0,0,0,0,0,0,0,0,0,0,0,0]
     lamb_value = [0, 0, 0, 0, 0, 0,0, 0, 0, 0]
     learning_rate = [0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01]
     hyper_learning_rate = [0.2,0,0.2,0,0.2,0,2,4]
@@ -181,5 +182,5 @@ if __name__ == '__main__':
              learning_rate=learning_rate[i],hyper_learning_rate=hyper_learning_rate[i],  alg=algorithms_list[i], batch_size=batch_size[i], rho = rho[i], dataset=DATA_SET)
 
     plot_summary_mnist(num_users=number_users, loc_ep1=local_ep, Numb_Glob_Iters=800, lamb=lamb_value,
-                               learning_rate=learning_rate, hyper_learning_rate = hyper_learning_rate, algorithms_list=algorithms_list, batch_size=batch_size, rho = rho[i], dataset=DATA_SET)
+                               learning_rate=learning_rate, hyper_learning_rate = hyper_learning_rate, algorithms_list=algorithms_list, batch_size=batch_size, rho = rho, dataset=DATA_SET)
     print("-- FINISH -- :",)

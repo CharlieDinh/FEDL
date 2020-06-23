@@ -127,10 +127,9 @@ def get_max_value_index(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[], l
         print("Algorithm: ", algorithms_list[i], "Max testing Accurancy: ", glob_acc[i].max(
         ), "Index: ", np.argmax(glob_acc[i]), "local update:", loc_ep1[i])
 
-def plot_summary_mnist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], learning_rate=[],hyper_learning_rate=[], algorithms_list=[], batch_size=0, dataset=""):
+def plot_summary_mnist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], learning_rate=[],hyper_learning_rate=[], algorithms_list=[], batch_size=0,rho = [], dataset=""):
     Numb_Algs = len(algorithms_list)
-    glob_acc, train_acc, train_loss = get_training_data_value(
-        num_users, loc_ep1, Numb_Glob_Iters, lamb, learning_rate,hyper_learning_rate, algorithms_list, batch_size, dataset)
+    glob_acc, train_acc, train_loss = get_training_data_value( num_users, loc_ep1, Numb_Glob_Iters, lamb, learning_rate, hyper_learning_rate, algorithms_list, batch_size, rho, dataset)
     for i in range(Numb_Algs):
         print(algorithms_list[i], "loss:", glob_acc[i].max())
     plt.figure(1)
@@ -242,10 +241,13 @@ def plot_summary_mnist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], l
     plt.savefig(dataset + str(loc_ep1[1]) + 'test_accu.png', bbox_inches='tight')
 
 
-def plot_summary_nist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], learning_rate=[], hyper_learning_rate=[], algorithms_list=[], batch_size=0, dataset=""):
+def plot_summary_nist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], learning_rate=[], hyper_learning_rate=[], algorithms_list=[], batch_size=0,rho = [], dataset=""):
     Numb_Algs = len(algorithms_list)
-    glob_acc, train_acc, train_loss = get_training_data_value(
-        num_users, loc_ep1, Numb_Glob_Iters, lamb, learning_rate, hyper_learning_rate, algorithms_list, batch_size, dataset)
+    #glob_acc, train_acc, train_loss = get_training_data_value( num_users, loc_ep1, Numb_Glob_Iters, lamb, learning_rate, hyper_learning_rate, algorithms_list, batch_size, rho, dataset)
+    glob_acc_, train_acc_, train_loss_ = get_training_data_value(num_users, loc_ep1, Numb_Glob_Iters, lamb, learning_rate, hyper_learning_rate, algorithms_list, batch_size, rho, dataset)
+    glob_acc =  average_smooth(glob_acc_, window='flat')
+    train_loss = average_smooth(train_loss_, window='flat')
+    train_acc = average_smooth(train_acc_, window='flat')
     for i in range(Numb_Algs):
         print(algorithms_list[i], "loss:", glob_acc[i].max())
     plt.figure(1)
@@ -261,7 +263,7 @@ def plot_summary_nist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], le
     ax3 = fig.add_subplot(133)
     #min = train_loss.min()
     min = train_loss.min() - 0.01
-    max = 2.5  # train_loss.max() + 0.01
+    max = 3  # train_loss.max() + 0.01
     num_al = 3
 # Turn off axis lines and ticks of the big subplot
     ax.spines['top'].set_color('none')
@@ -310,7 +312,7 @@ def plot_summary_nist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], le
     ax3 = fig.add_subplot(133)
     #min = train_loss.min()
     num_al = 3
-    min = 0.5
+    min = 0.4
     max = glob_acc.max() + 0.01  # train_loss.max() + 0.01
 # Turn off axis lines and ticks of the big subplot
     ax.spines['top'].set_color('none')

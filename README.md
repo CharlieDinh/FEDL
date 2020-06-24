@@ -24,7 +24,7 @@ https://github.com/litian96/FedProx
 - To generate non-idd MNIST Data: 
 - To generate FENIST Data: 
 - To generate niid Synthetic:
-- The datasets are available to download at:
+- The datasets are available to download at: https://drive.google.com/drive/folders/1Q91NCGcpHQjB3bXJTvtx5qZ-TrIZ9WzT?usp=sharing
 
 # Produce figures in the paper:
 - There are 3 main files to produce the figures and results corresponding for 3 datasets.

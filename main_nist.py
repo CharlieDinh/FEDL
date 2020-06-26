@@ -188,21 +188,16 @@ def main(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01
 
 
 if __name__ == '__main__':
-    algorithms_list = ["fedfedl", "fedsgd", "fedfedl",
-                       "fedfedl", "fedsgd", "fedfedl",
-                       "fedfedl", "fedsgd", "fedfedl"]
+    
+    algorithms_list =  ["fedfedl","fedsgd","fedfedl", "fedfedl","fedsgd","fedfedl", "fedfedl","fedsgd","fedfedl"]
     rho = [0,0,0,0,0,0,0,0,0,0,0,0]
     lamb_value = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    learning_rate = [0.01, 0.01, 0.05, 0.01, 0.01, 0.05, 0.01, 0.01, 0.05]
-    hyper_learning_rate = [1, 0, 1.5, 1, 0, 1.5, 1, 0, 1.5]
-    local_ep = [10, 10, 10, 20, 20, 20, 40, 40,40]
+    learning_rate = [0.003, 0.003, 0.015, 0.003, 0.003, 0.015, 0.003, 0.003, 0.015]
+    hyper_learning_rate = [0.2, 0, 0.5, 0.2, 0, 0.5, 0.2, 0, 0.5]
+    local_ep = [10, 10, 10, 20, 20, 20, 40, 40, 40]
     batch_size = [20, 20, 0, 20, 20, 0, 20, 20, 0]
     DATA_SET = "nist"
     number_users = 10
-
-    for i in range(len(algorithms_list)):
-        main(num_users=number_users, loc_ep=local_ep[i], Numb_Glob_Iters=800, lamb=lamb_value[i],
-             learning_rate=learning_rate[i],hyper_learning_rate=hyper_learning_rate[i],  alg=algorithms_list[i], batch_size=batch_size[i], rho = rho[i], dataset=DATA_SET)
 
     plot_summary_nist(num_users=number_users, loc_ep1=local_ep, Numb_Glob_Iters=800, lamb=lamb_value,
                                learning_rate=learning_rate, hyper_learning_rate = hyper_learning_rate, algorithms_list=algorithms_list, batch_size=batch_size, rho = rho, dataset=DATA_SET)

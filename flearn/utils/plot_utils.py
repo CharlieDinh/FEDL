@@ -96,9 +96,7 @@ def plot_summary_one_figure(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[
         plt.plot(train_loss[i, start:], linestyle=linestyles[i], label=algorithms_list[i] + str(lamb[i]) +
                  "_"+str(loc_ep1[i])+"e" + "_" + str(batch_size[i]) + "b")
         #plt.plot(train_loss1[i, 1:], label=algs_lbl1[i])
-    plt.hlines(y=0.035,xmin=0, xmax=200, color='r', linestyle=':',label = "optimal solution")
     plt.legend(loc='upper right')
-    plt.ylim([0.02, 0.8])
     plt.ylabel('Training Loss')
     plt.xlabel('Global rounds')
     plt.title(dataset.upper())
@@ -145,6 +143,9 @@ def plot_summary_mnist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], l
     ax1 = fig.add_subplot(131)
     ax2 = fig.add_subplot(132)
     ax3 = fig.add_subplot(133)
+    ax1.grid(True)
+    ax2.grid(True)
+    ax3.grid(True)
     #min = train_loss.min()
     min = train_loss.min() - 0.01
     max = 0.5  # train_loss.max() + 0.01
@@ -196,6 +197,9 @@ def plot_summary_mnist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], l
     ax1 = fig.add_subplot(131)
     ax2 = fig.add_subplot(132)
     ax3 = fig.add_subplot(133)
+    ax1.grid(True)
+    ax2.grid(True)
+    ax3.grid(True)
     #min = train_loss.min()
     min = 0.8
     max = glob_acc.max() + 0.01  # train_loss.max() + 0.01
@@ -257,10 +261,14 @@ def plot_summary_nist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], le
                 "FEDL", "FedAvg", "FEDL",
                 "FEDL", "FedAvg", "FEDL"]
     fig = plt.figure(figsize=(12, 4))
+    
     ax = fig.add_subplot(111)    # The big subplot
     ax1 = fig.add_subplot(131)
     ax2 = fig.add_subplot(132)
     ax3 = fig.add_subplot(133)
+    ax1.grid(True)
+    ax2.grid(True)
+    ax3.grid(True)
     #min = train_loss.min()
     min = train_loss.min() - 0.01
     max = 3  # train_loss.max() + 0.01
@@ -310,9 +318,12 @@ def plot_summary_nist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], le
     ax1 = fig.add_subplot(131)
     ax2 = fig.add_subplot(132)
     ax3 = fig.add_subplot(133)
+    ax1.grid(True)
+    ax2.grid(True)
+    ax3.grid(True)
     #min = train_loss.min()
     num_al = 3
-    min = 0.4
+    min = 0.3
     max = glob_acc.max() + 0.01  # train_loss.max() + 0.01
 # Turn off axis lines and ticks of the big subplot
     ax.spines['top'].set_color('none')

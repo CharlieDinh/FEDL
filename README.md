@@ -19,7 +19,7 @@ https://github.com/litian96/FedProx
 
 - The code can be run on any pc.
 
-# Dataset: We use 3 datasets: MNIST, FENIST, and Synthetic 
+# Dataset: We use 3 datasets: MNIST, FEMNIST, and Synthetic 
 
 - To generate non-idd MNIST Data: In folder data/mnist,  run: "python3 generate_niid_mnist_100users.py" 
 - To generate FENIST Data: first In folder data/nist run preprocess.sh to obtain all raw data, or can be download in the link below, then run  python3 generate_niid_femnist_100users.py

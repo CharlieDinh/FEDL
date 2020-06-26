@@ -33,7 +33,7 @@ def get_training_data_value(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[
             algorithms_list[i] += "_" + str(rho[i])+"r"
 
         train_acc[i, :], train_loss[i, :], glob_acc[i, :] = np.array(
-            simple_read_data(loc_ep1[i], dataset + algorithms_list[i]))[:, :Numb_Glob_Iters]
+            simple_read_data(str(loc_ep1[i]) + "_avg", dataset + algorithms_list[i]))[:, :Numb_Glob_Iters]
         algs_lbl[i] = algs_lbl[i]
     return glob_acc, train_acc, train_loss
 

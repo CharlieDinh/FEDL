@@ -11,11 +11,6 @@ from flearn.utils.model_utils import read_data
 import matplotlib
 matplotlib.use('Agg')
 
-# GLOBAL PARAMETERS
-OPTIMIZERS = ['fedavg', 'fedprox', 'fedsgd', 'fedfedl']
-
-DATASETS = ['nist', 'mnist', 'fashion_mnist']  # NIST is EMNIST in the paper
-
 MODEL_PARAMS = {
     'sent140.bag_dnn': (2,),  # num_classes
     'sent140.stacked_lstm': (25, 2, 100),  # seq_len, num_classes, num_hidden
@@ -29,23 +24,24 @@ MODEL_PARAMS = {
     'fashion_mnist.mclr': (10,),
     'fashion_mnist.cnn': (10,),
     'shakespeare.stacked_lstm': (80, 80, 256),  # seq_len, emb_dim, num_hidden
-    'synthetic.mclr': (10, )  # num_classes
+    'synthetic.mclr': (10, ),  # num_classes
+    'logistic_synthetic.mclr':(2,)  # num_classes
 }
 
 
-def read_options(num_users=10, loc_ep=20, Numb_Glob_Iters=2, lamb=0, learning_rate=0.001, hyper_learning_rate= 0.1, alg='fedfedl', weight=True, batch_size=20, dataset="mnist", times = 2, rho = 0):
+def read_options(num_users=10, loc_ep=20, Numb_Glob_Iters=2, lamb=0, learning_rate=0.001, hyper_learning_rate= 0.1, alg='fedfedl', weight=True, batch_size=20, dataset= 'mnist', times = 2, rho = 0):
     ''' Parse command line arguments or load defaults '''
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--optimizer',
                         help='name of optimizer;',
                         type=str,
-                        choices=OPTIMIZERS,
+                        choices= ["fedsgd", "fedfedl"] ,
                         default=alg)  # fedavg, fedprox
     parser.add_argument('--dataset',
                         help='name of dataset;',
                         type=str,
-                        choices=DATASETS,
+                        choices=["nist", "mnist", "logistic_synthetic"],
                         default=dataset)
     parser.add_argument('--model',
                         help='name of model;',
@@ -103,7 +99,7 @@ def read_options(num_users=10, loc_ep=20, Numb_Glob_Iters=2, lamb=0, learning_ra
     parser.add_argument('--rho',
                         help='Condition number only for synthetic data;',
                         type=int,
-                        default=lamb)
+                        default=rho)
     try:
         parsed = vars(parser.parse_args())
     except IOError as msg:
@@ -116,7 +112,7 @@ def read_options(num_users=10, loc_ep=20, Numb_Glob_Iters=2, lamb=0, learning_ra
 
     # load selected model
     # all synthetic datasets use the same model
-    if parsed['dataset'].startswith("synthetic"):
+    if parsed['dataset'].startswith('synthetic'):
         model_path = '%s.%s.%s.%s' % (
             'flearn', 'models', 'synthetic', parsed['model'])
     else:
@@ -163,10 +159,10 @@ def main():
     # call appropriate trainer
     t = optimizer(options, learner, dataset)
 
-    #for i in range(options['times']):
-    #    print("......time for runing......",i)
-    #    t.train(i)
-    average_data(num_users=options["clients_per_round"], loc_ep1=options["num_epochs"], Numb_Glob_Iters=options["num_rounds"], lamb=options["lamb"],learning_rate=options["learning_rate"], hyper_learning_rate = options["hyper_learning_rate"], algorithms=options["optimizer"], batch_size=options["batch_size"], dataset=options["dataset"], rho =options["rho"], times = options["times"])
+    for i in range(options['times']):
+        print('......time for runing......',i)
+        t.train(i)
+    average_data(num_users=options['clients_per_round'], loc_ep1=options['num_epochs'], Numb_Glob_Iters=options['num_rounds'], lamb=options['lamb'],learning_rate=options['learning_rate'], hyper_learning_rate = options['hyper_learning_rate'], algorithms=options['optimizer'], batch_size=options['batch_size'], dataset=options['dataset'], rho =options['rho'], times = options['times'])
 
 
 if __name__ == '__main__':

@@ -467,7 +467,7 @@ def average_data(num_users, loc_ep1, Numb_Glob_Iters, lamb,learning_rate, hyper_
     print("std:", np.std(max_accurancy))
     print("Mean:", np.mean(max_accurancy))
 
-    alg = dataset + "_" + algorithms
+    alg = dataset + algorithms
     alg = alg + "_" + str(learning_rate) + "_" + str(hyper_learning_rate) + "_" + str(lamb) + "_" + str(num_users) + "u" + "_" + str(batch_size) + "b" + "_" + str(loc_ep1)
 
     alg = alg + "_" + "avg"

@@ -423,3 +423,7 @@ def plot_summary_linear(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[], l
     ax.set_ylabel('Training Loss')
     plt.savefig(dataset + str(loc_ep1[1]) + 'train_loss.pdf', bbox_inches='tight')
     plt.savefig(dataset + str(loc_ep1[1]) + 'train_loss.png', bbox_inches='tight')
+
+
+average_data(num_users, loc_ep1, Numb_Glob_Iters, lamb,learning_rate, hyper_learning_rate, algorithms, batch_size, dataset, rho, times):
+    return 0;

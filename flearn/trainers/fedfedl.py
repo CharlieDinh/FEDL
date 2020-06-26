@@ -16,7 +16,8 @@ class Server(BaseFedarated):
         #self.meanGrads = 0
         super(Server, self).__init__(params, learner, dataset)
 
-    def train(self):
+    def train(self, index = 0):
+        self.index = index
         '''Train using Federated Averaging'''
         print("Train using FEDL")
         print('Training with {} workers ---'.format(self.clients_per_round))

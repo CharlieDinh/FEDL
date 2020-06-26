@@ -17,7 +17,8 @@ class Server(BaseFedarated):
         #self.seed = 1
         super(Server, self).__init__(params, learner, dataset)
 
-    def train(self):
+    def train(self,index):
+        self.index = index
         '''Train using Federated Proximal'''
         print("Train using Federated Proximal SGD")
         print('Training with {} workers ---'.format(self.clients_per_round))

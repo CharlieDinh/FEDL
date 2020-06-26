@@ -33,7 +33,7 @@ MODEL_PARAMS = {
 }
 
 
-def read_options(num_users=10, loc_ep=20, Numb_Glob_Iters=800, lamb=0, learning_rate=0.001, hyper_learning_rate= 0.1, alg='fedfedl', weight=True, batch_size=20, dataset="mnist", times = 5, rho = 0):
+def read_options(num_users=10, loc_ep=20, Numb_Glob_Iters=2, lamb=0, learning_rate=0.001, hyper_learning_rate= 0.1, alg='fedfedl', weight=True, batch_size=20, dataset="mnist", times = 2, rho = 0):
     ''' Parse command line arguments or load defaults '''
     parser = argparse.ArgumentParser()
 
@@ -163,9 +163,9 @@ def main():
     # call appropriate trainer
     t = optimizer(options, learner, dataset)
 
-    for i in range(options['times']):
-        print("......time for runing......",i)
-        t.train()
+    #for i in range(options['times']):
+    #    print("......time for runing......",i)
+    #    t.train(i)
     average_data(num_users=options["clients_per_round"], loc_ep1=options["clients_per_round"], Numb_Glob_Iters=options["clients_per_round"], lamb=options["clients_per_round"],learning_rate=options["clients_per_round"], hyper_learning_rate = options["hyper_learning_rate"], algorithms=options["optimizer"], batch_size=options["batch_size"], dataset=options["dataset"], rho =options["rho"], times = options["times"])
 
 

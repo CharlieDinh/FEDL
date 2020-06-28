@@ -472,6 +472,9 @@ def average_data(num_users, loc_ep1, Numb_Glob_Iters, lamb,learning_rate, hyper_
         alg += "_" + str(lamb) 
         
     alg += "_" + str(num_users) + "u" + "_" + str(batch_size) + "b" + "_" + str(loc_ep1)
+
+    if(rho > 0):
+        alg += alg + "_" + "rho"
     
     #alg = alg + "_" + str(learning_rate) + "_" + str(hyper_learning_rate) + "_" + str(lamb) + "_" + str(num_users) + "u" + "_" + str(batch_size) + "b" + "_" + str(loc_ep1)
     alg = alg + "_" + "avg"

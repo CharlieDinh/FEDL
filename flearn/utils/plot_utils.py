@@ -484,4 +484,4 @@ def average_data(num_users, loc_ep1, Numb_Glob_Iters, lamb,learning_rate, hyper_
             hf.create_dataset('rs_train_acc', data=train_acc)
             hf.create_dataset('rs_train_loss', data=train_loss)
             hf.close()
-    return 0;
+    return 0

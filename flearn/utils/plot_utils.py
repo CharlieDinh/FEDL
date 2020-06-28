@@ -48,7 +48,7 @@ def get_data_label_style(input_data = [], linestyles= [], algs_lbl = [], lamb = 
 
     return data, lstyles, labels
 
-def average_smooth(data, window_len=30, window='hanning'):
+def average_smooth(data, window_len=10, window='hanning'):
     results = []
     if window_len<3:
         return data
@@ -456,10 +456,6 @@ def get_all_training_data_value(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, la
 
 def average_data(num_users, loc_ep1, Numb_Glob_Iters, lamb,learning_rate, hyper_learning_rate, algorithms, batch_size, dataset, rho, times):
     glob_acc, train_acc, train_loss = get_all_training_data_value( num_users, loc_ep1, Numb_Glob_Iters, lamb, learning_rate, hyper_learning_rate, algorithms, batch_size, dataset, rho, times)
-    glob_acc_data = np.average(glob_acc, axis=0)
-    train_acc_data = np.average(train_acc, axis=0)
-    train_loss_data = np.average(train_loss, axis=0)
-
     # store average value to h5 file
     max_accurancy = []
     for i in range(times):
@@ -468,13 +464,21 @@ def average_data(num_users, loc_ep1, Numb_Glob_Iters, lamb,learning_rate, hyper_
     print("Mean:", np.mean(max_accurancy))
 
     alg = dataset + algorithms
-    alg = alg + "_" + str(learning_rate) + "_" + str(hyper_learning_rate) + "_" + str(lamb) + "_" + str(num_users) + "u" + "_" + str(batch_size) + "b" + "_" + str(loc_ep1)
-
+    alg += "_" + str(learning_rate)
+    
+    if(algorithms == "fedfedl"):
+        alg += "_" + str(hyper_learning_rate)
+    if(lamb > 0):
+        alg += "_" + str(lamb) 
+        
+    alg += "_" + str(num_users) + "u" + "_" + str(batch_size) + "b" + "_" + str(loc_ep1)
+    
+    #alg = alg + "_" + str(learning_rate) + "_" + str(hyper_learning_rate) + "_" + str(lamb) + "_" + str(num_users) + "u" + "_" + str(batch_size) + "b" + "_" + str(loc_ep1)
     alg = alg + "_" + "avg"
     if (len(glob_acc) != 0 &  len(train_acc) & len(train_loss)) :
         with h5py.File("./results/"+'{}.h5'.format(alg,loc_ep1), 'w') as hf:
-            hf.create_dataset('rs_glob_acc', data=glob_acc_data)
-            hf.create_dataset('rs_train_acc', data=train_acc_data)
-            hf.create_dataset('rs_train_loss', data=train_loss_data)
+            hf.create_dataset('rs_glob_acc', data=glob_acc)
+            hf.create_dataset('rs_train_acc', data=train_acc)
+            hf.create_dataset('rs_train_loss', data=train_loss)
             hf.close()
     return 0;

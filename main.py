@@ -105,11 +105,6 @@ def read_options(num_users=10, loc_ep=20, Numb_Glob_Iters=2, lamb=0, learning_ra
     except IOError as msg:
         parser.error(str(msg))
 
-    # Set seeds
-    random.seed(1 + parsed['seed'])
-    np.random.seed(12 + parsed['seed'])
-    tf.set_random_seed(123 + parsed['seed'])
-
     # load selected model
     # all synthetic datasets use the same model
     if parsed['dataset'].startswith('synthetic'):
@@ -157,11 +152,17 @@ def main():
     dataset = read_data(train_path, test_path)
 
     # call appropriate trainer
-    t = optimizer(options, learner, dataset)
+    
 
     for i in range(options['times']):
+        # Set seeds
+        random.seed(1 + i)
+        np.random.seed(12 + i)
+        tf.set_random_seed(123 + i)
         print('......time for runing......',i)
+        t = optimizer(options, learner, dataset)
         t.train(i)
+        
     average_data(num_users=options['clients_per_round'], loc_ep1=options['num_epochs'], Numb_Glob_Iters=options['num_rounds'], lamb=options['lamb'],learning_rate=options['learning_rate'], hyper_learning_rate = options['hyper_learning_rate'], algorithms=options['optimizer'], batch_size=options['batch_size'], dataset=options['dataset'], rho =options['rho'], times = options['times'])
 
 

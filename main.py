@@ -152,8 +152,6 @@ def main():
     dataset = read_data(train_path, test_path)
 
     # call appropriate trainer
-    
-
     for i in range(options['times']):
         # Set seeds
         random.seed(1 + i)
@@ -162,7 +160,7 @@ def main():
         print('......time for runing......',i)
         t = optimizer(options, learner, dataset)
         t.train(i)
-        
+
     average_data(num_users=options['clients_per_round'], loc_ep1=options['num_epochs'], Numb_Glob_Iters=options['num_rounds'], lamb=options['lamb'],learning_rate=options['learning_rate'], hyper_learning_rate = options['hyper_learning_rate'], algorithms=options['optimizer'], batch_size=options['batch_size'], dataset=options['dataset'], rho =options['rho'], times = options['times'])
 
 

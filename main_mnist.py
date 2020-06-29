@@ -177,9 +177,9 @@ if __name__ == '__main__':
     DATA_SET = "mnist"
     number_users = 10
 
-    #for i in range(len(algorithms_list)):
-    #    main(num_users=number_users, loc_ep=local_ep[i], Numb_Glob_Iters=800, lamb=lamb_value[i],
-    #         learning_rate=learning_rate[i],hyper_learning_rate=hyper_learning_rate[i],  alg=algorithms_list[i], batch_size=batch_size[i], rho = rho[i], dataset=DATA_SET)
+    for i in range(len(algorithms_list)):
+        main(num_users=number_users, loc_ep=local_ep[i], Numb_Glob_Iters=800, lamb=lamb_value[i],
+             learning_rate=learning_rate[i],hyper_learning_rate=hyper_learning_rate[i],  alg=algorithms_list[i], batch_size=batch_size[i], rho = rho[i], dataset=DATA_SET)
 
     plot_summary_mnist(num_users=number_users, loc_ep1=local_ep, Numb_Glob_Iters=800, lamb=lamb_value,
                                learning_rate=learning_rate, hyper_learning_rate = hyper_learning_rate, algorithms_list=algorithms_list, batch_size=batch_size, rho = rho, dataset=DATA_SET)

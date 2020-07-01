@@ -127,7 +127,8 @@ class BaseFedarated(object):
             return self.clients
 
         num_clients = min(num_clients, len(self.clients))
-        np.random.seed(round + self.index) 
+        #np.random.seed(round + self.index) 
+        np.random.seed(round * (self.index + 1))
         return np.random.choice(self.clients, num_clients, replace=False) #, p=pk)
 
 

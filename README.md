@@ -54,8 +54,6 @@ https://github.com/litian96/FedProx
   - To produce the figure for linear regression run <pre><code> python3 main_linear.py</code></pre>
   
 - For MNIST run below commands:
-![mnist20test_accu](https://user-images.githubusercontent.com/44039773/86306670-3e80e500-bc58-11ea-8fec-5e80a3fcf08a.png)
-![mnist20train_loss](https://user-images.githubusercontent.com/44039773/86306673-3f197b80-bc58-11ea-9efa-c7df0d88eaff.png)
     <pre><code>
     python3 -u main.py --dataset mnist --optimizer fedfedl --model mclr.py --num_rounds  800 --clients_per_round 10 --batch_size 20 --num_epochs  20 --learning_rate  0.003 --hyper_learning_rate  0.2 --rho 0 --times  10
     python3 -u main.py --dataset mnist --optimizer fedsgd --model mclr.py --num_rounds  800 --clients_per_round 10 --batch_size 20 --num_epochs  20 --learning_rate  0.003 --hyper_learning_rate  0 --rho 0 --times  10 
@@ -69,10 +67,10 @@ https://github.com/litian96/FedProx
     python3 -u main.py --dataset mnist --optimizer fedfedl --model mclr.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.003 --hyper_learning_rate  2 --rho 0 --times  10
     python3 -u main.py --dataset mnist --optimizer fedfedl --model mclr.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.003 --hyper_learning_rate  4 --rho 0 --times  10
     </code></pre>
+   ![mnist20test_accu](https://user-images.githubusercontent.com/44039773/86306670-3e80e500-bc58-11ea-8fec-5e80a3fcf08a.png)
+  ![mnist20train_loss](https://user-images.githubusercontent.com/44039773/86306673-3f197b80-bc58-11ea-9efa-c7df0d88eaff.png)
   - To produce the figure for linear regression run <pre><code> python3 main_.py</code></pre>
 - For FEMNIST run below commands:
-![nist10test_accu](https://user-images.githubusercontent.com/44039773/86306675-3fb21200-bc58-11ea-9996-19c7f3898da5.png)
-![nist10train_loss](https://user-images.githubusercontent.com/44039773/86306678-404aa880-bc58-11ea-97e7-fbfaa4df796e.png)
     <pre><code>
     python3 -u main.py --dataset nist --optimizer fedfedl --model mclr.py --num_rounds  800 --clients_per_round 10 --batch_size 20 --num_epochs  10 --learning_rate  0.003 --hyper_learning_rate  0.2 --rho 0 --times  10 
     python3 -u main.py --dataset nist --optimizer fedsgd --model mclr.py --num_rounds  800 --clients_per_round 10 --batch_size 20 --num_epochs  10 --learning_rate  0.003 --hyper_learning_rate  0 --rho 0 --times  10 
@@ -86,4 +84,6 @@ https://github.com/litian96/FedProx
     python3 -u main.py --dataset nist --optimizer fedsgd --model mclr.py --num_rounds  800 --clients_per_round 10 --batch_size 20 --num_epochs  40 --learning_rate  0.003 --hyper_learning_rate  0 --rho 0 --times  10 
     python3 -u main.py --dataset nist --optimizer fedfedl --model mclr.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  40 --learning_rate  0.015 --hyper_learning_rate  0.5 --rho 0 --times  10 
     </code></pre>
+    ![nist10test_accu](https://user-images.githubusercontent.com/44039773/86306675-3fb21200-bc58-11ea-9996-19c7f3898da5.png)
+    ![nist10train_loss](https://user-images.githubusercontent.com/44039773/86306678-404aa880-bc58-11ea-97e7-fbfaa4df796e.png)
   - To produce the figure for linear regression run <pre><code> python3 main_nist.py</code></pre>

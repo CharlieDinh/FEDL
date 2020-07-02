@@ -31,7 +31,7 @@ https://github.com/litian96/FedProx
 
 - To produce the experiments for Linear Regresstion:
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/44039773/86306668-3b85f480-bc58-11ea-8cae-b50e6f43eec0.png" height="200">
+  <img src="https://user-images.githubusercontent.com/44039773/86306668-3b85f480-bc58-11ea-8cae-b50e6f43eec0.png" height="300">
 </p>
 
   - In folder data/linear_synthetic, before generating linear data set, configure the value of $\rho$ for example rho = 1.4 (in the papers we use 3 different values of $\rho$: 1.4, 2, 5) then run: "python3 generate_linear_regession.py" to generate data corresponding to different values of $\rho$.
@@ -72,8 +72,9 @@ https://github.com/litian96/FedProx
     </code></pre>
     
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/44039773/86306670-3e80e500-bc58-11ea-8fec-5e80a3fcf08a.png" height="200">
-  <img src="https://user-images.githubusercontent.com/44039773/86306673-3f197b80-bc58-11ea-9efa-c7df0d88eaff.png" height="200">
+  <img src="https://user-images.githubusercontent.com/44039773/86306670-3e80e500-bc58-11ea-8fec-5e80a3fcf08a.png" height="300">
+  
+  <img src="https://user-images.githubusercontent.com/44039773/86306673-3f197b80-bc58-11ea-9efa-c7df0d88eaff.png" height="300">
 </p>
 
   - To produce the figure for linear regression run <pre><code> python3 main_.py</code></pre>
@@ -93,8 +94,9 @@ https://github.com/litian96/FedProx
     </code></pre>
     
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/44039773/86306675-3fb21200-bc58-11ea-9996-19c7f3898da5.png" height="200">
-  <img src="https://user-images.githubusercontent.com/44039773/86306678-404aa880-bc58-11ea-97e7-fbfaa4df796e.png" height="200">
+  <img src="https://user-images.githubusercontent.com/44039773/86306675-3fb21200-bc58-11ea-9996-19c7f3898da5.png" height="300">
+  
+  <img src="https://user-images.githubusercontent.com/44039773/86306678-404aa880-bc58-11ea-97e7-fbfaa4df796e.png" height="300">
 </p>
 
   - To produce the figure for linear regression run <pre><code> python3 main_nist.py</code></pre>

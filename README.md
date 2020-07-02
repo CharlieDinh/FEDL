@@ -56,7 +56,7 @@ https://github.com/litian96/FedProx
   - All the train loss, testing accuracy, and training accuracy will be stored as h5py file in the folder "results".
   - To produce the figure for linear regression run <pre><code> python3 main_linear.py</code></pre>
   
-- For MNIST run below commands:
+- For MNIST, run below commands:
     <pre><code>
     python3 -u main.py --dataset mnist --optimizer fedfedl --model mclr.py --num_rounds  800 --clients_per_round 10 --batch_size 20 --num_epochs  20 --learning_rate  0.003 --hyper_learning_rate  0.2 --rho 0 --times  10
     python3 -u main.py --dataset mnist --optimizer fedsgd --model mclr.py --num_rounds  800 --clients_per_round 10 --batch_size 20 --num_epochs  20 --learning_rate  0.003 --hyper_learning_rate  0 --rho 0 --times  10 
@@ -77,8 +77,9 @@ https://github.com/litian96/FedProx
   <img src="https://user-images.githubusercontent.com/44039773/86306673-3f197b80-bc58-11ea-9efa-c7df0d88eaff.png" height="300">
 </p>
 
-  - To produce the figure for linear regression run <pre><code> python3 main_mn.py</code></pre>
-- For FEMNIST run below commands:
+  - To produce the figure for MNIST experiment, run <pre><code> python3 main_mn.py</code></pre>
+  
+- For FEMNIST, run below commands:
     <pre><code>
     python3 -u main.py --dataset nist --optimizer fedfedl --model mclr.py --num_rounds  800 --clients_per_round 10 --batch_size 20 --num_epochs  10 --learning_rate  0.003 --hyper_learning_rate  0.2 --rho 0 --times  10 
     python3 -u main.py --dataset nist --optimizer fedsgd --model mclr.py --num_rounds  800 --clients_per_round 10 --batch_size 20 --num_epochs  10 --learning_rate  0.003 --hyper_learning_rate  0 --rho 0 --times  10 
@@ -99,4 +100,4 @@ https://github.com/litian96/FedProx
   <img src="https://user-images.githubusercontent.com/44039773/86306678-404aa880-bc58-11ea-97e7-fbfaa4df796e.png" height="300">
 </p>
 
-  - To produce the figure for linear regression run <pre><code> python3 main_nist.py</code></pre>
+  - To produce the figure for FEMNIST experiment, run <pre><code> python3 main_nist.py</code></pre>

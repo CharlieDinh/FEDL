@@ -34,22 +34,24 @@ https://github.com/litian96/FedProx
   ![linear_synthetic20train_loss](https://user-images.githubusercontent.com/44039773/86306668-3b85f480-bc58-11ea-8cae-b50e6f43eec0.png)
   - In folder data/linear_synthetic, before generating linear data set, configure the value of $\rho$ for example rho = 1.4 (in the papers we use 3 different values of $\rho$: 1.4, 2, 5) then run: "python3 generate_linear_regession.py" to generate data corresponding to different values of $\rho$.
   - To find the optimal solution: In folder data/linear_synthetic, run python3 optimal_solution_finding.py (also the value of $\rho$ need to be configured to find the optimal solution)
-<pre><code>
-python3 -u main.py --dataset logistic_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.1 --rho 1.4 --times  10
-python3 -u main.py --dataset logistic_synthetic --optimizer fedsgd --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.3 --rho 1.4 --times  10 
-python3 -u main.py --dataset logistic_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.5 --rho 1.4 --times  10
-python3 -u main.py --dataset logistic_synthetic --optimizer fedsgd --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.7 --rho 1.4 --times  10 
+  - To generate result for the training process, run below commands:
+    <pre><code>
+    python3 -u main.py --dataset logistic_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.1 --rho 1.4 --times  10
+    python3 -u main.py --dataset logistic_synthetic --optimizer fedsgd --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.3 --rho 1.4 --times  10 
+    python3 -u main.py --dataset logistic_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.5 --rho 1.4 --times  10
+    python3 -u main.py --dataset logistic_synthetic --optimizer fedsgd --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.7 --rho 1.4 --times  10 
 
-python3 -u main.py --dataset logistic_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.1 --rho 2 --times  10
-python3 -u main.py --dataset logistic_synthetic --optimizer fedsgd --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.3 --rho 2 --times  10 
-python3 -u main.py --dataset logistic_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.5 --rho 2 --times  10
-python3 -u main.py --dataset logistic_synthetic --optimizer fedsgd --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.7 --rho 2 --times  10 
+    python3 -u main.py --dataset logistic_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.1 --rho 2 --times  10
+    python3 -u main.py --dataset logistic_synthetic --optimizer fedsgd --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.3 --rho 2 --times  10 
+    python3 -u main.py --dataset logistic_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.5 --rho 2 --times  10
+    python3 -u main.py --dataset logistic_synthetic --optimizer fedsgd --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.7 --rho 2 --times  10 
 
-python3 -u main.py --dataset logistic_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.1 --rho 5 --times  10
-python3 -u main.py --dataset logistic_synthetic --optimizer fedsgd --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.3 --rho 5 --times  10 
-python3 -u main.py --dataset logistic_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.5 --rho 5 --times  10
-python3 -u main.py --dataset logistic_synthetic --optimizer fedsgd --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.7 --rho 5 --times  10 
-</code></pre>
+    python3 -u main.py --dataset logistic_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.1 --rho 5 --times  10
+    python3 -u main.py --dataset logistic_synthetic --optimizer fedsgd --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.3 --rho 5 --times  10 
+    python3 -u main.py --dataset logistic_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.5 --rho 5 --times  10
+    python3 -u main.py --dataset logistic_synthetic --optimizer fedsgd --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.7 --rho 5 --times  10 
+    </code></pre>
+  - All the train loss, testing accuracy, and training accuracy will be stored as h5py file in the folder "results".
   - To produce the figure for linear regression run <pre><code> python3 main_linear.py</code></pre>
   
 - For MNIST:

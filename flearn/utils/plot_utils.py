@@ -48,7 +48,7 @@ def get_data_label_style(input_data = [], linestyles= [], algs_lbl = [], lamb = 
 
     return data, lstyles, labels
 
-def average_smooth(data, window_len=5, window='hanning'):
+def average_smooth(data, window_len=10, window='hanning'):
     results = []
     if window_len<3:
         return data
@@ -136,7 +136,9 @@ def plot_summary_mnist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], l
     train_acc = average_smooth(train_acc_, window='flat')
 
     for i in range(Numb_Algs):
-        print(algorithms_list[i], "loss:", glob_acc[i].max())
+        print(algorithms_list[i], "acc:", glob_acc[i].max())
+        print(algorithms_list[i], "loss:", train_loss[i].max())
+        
     plt.figure(1)
 
     linestyles = ['-', '--', '-.', ':']
@@ -155,7 +157,7 @@ def plot_summary_mnist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], l
     ax3.grid(True)
     #min = train_loss.min()
     min = train_loss.min() - 0.001
-    max = 0.5  
+    max = 0.46 
     #max = train_loss.max() + 0.01
     num_al = 2
 # Turn off axis lines and ticks of the big subplot
@@ -209,7 +211,7 @@ def plot_summary_mnist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], l
     ax2.grid(True)
     ax3.grid(True)
     #min = train_loss.min()
-    min = 0.8
+    min = 0.82
     max = glob_acc.max() + 0.001  # train_loss.max() + 0.01
     num_al = 2
 # Turn off axis lines and ticks of the big subplot
@@ -261,7 +263,8 @@ def plot_summary_nist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], le
     train_loss = average_smooth(train_loss_, window='flat')
     train_acc = average_smooth(train_acc_, window='flat')
     for i in range(Numb_Algs):
-        print(algorithms_list[i], "loss:", glob_acc[i].max())
+        print(algorithms_list[i], "acc:", glob_acc[i].max())
+        print(algorithms_list[i], "loss:", train_loss[i].max())
     plt.figure(1)
 
     linestyles = ['-', '--', '-.', ':']

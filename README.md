@@ -50,7 +50,7 @@ python3 -u main.py --dataset logistic_synthetic --optimizer fedsgd --model linea
 python3 -u main.py --dataset logistic_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.5 --rho 5 --times  10
 python3 -u main.py --dataset logistic_synthetic --optimizer fedsgd --model linear.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.7 --rho 5 --times  10 
 </code></pre>
-  - To produce the figure for linear regression run python3 main_linear.py
+  - To produce the figure for linear regression run <pre><code> python3 main_linear.py</code></pre>
   
 - For MNIST:
 <pre><code>

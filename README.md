@@ -30,7 +30,10 @@ https://github.com/litian96/FedProx
 - There is a main file "main.py" which allows running all experiments and 3 files "main_mnist.py, main_nist.py, main_linear.py" to produce the figures corresponding for 3 datasets. It is noted that each experiment is run at least 10 times and then the result is averaged.
 
 - To produce the experiments for Linear Regresstion:
-  ![linear_synthetic20train_loss](https://user-images.githubusercontent.com/44039773/86306668-3b85f480-bc58-11ea-8cae-b50e6f43eec0.png)
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/44039773/86306668-3b85f480-bc58-11ea-8cae-b50e6f43eec0.png" height="200">
+</p>
+
   - In folder data/linear_synthetic, before generating linear data set, configure the value of $\rho$ for example rho = 1.4 (in the papers we use 3 different values of $\rho$: 1.4, 2, 5) then run: "python3 generate_linear_regession.py" to generate data corresponding to different values of $\rho$.
   - To find the optimal solution: In folder data/linear_synthetic, run python3 optimal_solution_finding.py (also the value of $\rho$ need to be configured to find the optimal solution)
   - To generate result for the training process, run below commands:
@@ -67,8 +70,12 @@ https://github.com/litian96/FedProx
     python3 -u main.py --dataset mnist --optimizer fedfedl --model mclr.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.003 --hyper_learning_rate  2 --rho 0 --times  10
     python3 -u main.py --dataset mnist --optimizer fedfedl --model mclr.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  20 --learning_rate  0.003 --hyper_learning_rate  4 --rho 0 --times  10
     </code></pre>
-   ![mnist20test_accu](https://user-images.githubusercontent.com/44039773/86306670-3e80e500-bc58-11ea-8fec-5e80a3fcf08a.png)
-  ![mnist20train_loss](https://user-images.githubusercontent.com/44039773/86306673-3f197b80-bc58-11ea-9efa-c7df0d88eaff.png)
+    
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/44039773/86306670-3e80e500-bc58-11ea-8fec-5e80a3fcf08a.png" height="200">
+  <img src="https://user-images.githubusercontent.com/44039773/86306673-3f197b80-bc58-11ea-9efa-c7df0d88eaff.png" height="200">
+</p>
+
   - To produce the figure for linear regression run <pre><code> python3 main_.py</code></pre>
 - For FEMNIST run below commands:
     <pre><code>
@@ -84,6 +91,10 @@ https://github.com/litian96/FedProx
     python3 -u main.py --dataset nist --optimizer fedsgd --model mclr.py --num_rounds  800 --clients_per_round 10 --batch_size 20 --num_epochs  40 --learning_rate  0.003 --hyper_learning_rate  0 --rho 0 --times  10 
     python3 -u main.py --dataset nist --optimizer fedfedl --model mclr.py --num_rounds  800 --clients_per_round 10 --batch_size 0 --num_epochs  40 --learning_rate  0.015 --hyper_learning_rate  0.5 --rho 0 --times  10 
     </code></pre>
-    ![nist10test_accu](https://user-images.githubusercontent.com/44039773/86306675-3fb21200-bc58-11ea-9996-19c7f3898da5.png)
-    ![nist10train_loss](https://user-images.githubusercontent.com/44039773/86306678-404aa880-bc58-11ea-97e7-fbfaa4df796e.png)
+    
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/44039773/86306675-3fb21200-bc58-11ea-9996-19c7f3898da5.png" height="200">
+  <img src="https://user-images.githubusercontent.com/44039773/86306678-404aa880-bc58-11ea-97e7-fbfaa4df796e.png" height="200">
+</p>
+
   - To produce the figure for linear regression run <pre><code> python3 main_nist.py</code></pre>

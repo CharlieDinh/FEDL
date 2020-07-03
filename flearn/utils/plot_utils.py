@@ -137,8 +137,8 @@ def plot_summary_mnist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], l
 
     for i in range(Numb_Algs):
         print(algorithms_list[i], "acc:", glob_acc[i].max())
-        print(algorithms_list[i], "loss:", train_loss[i].max())
-        
+        print(algorithms_list[i], "loss:", train_loss[i].min())
+
     plt.figure(1)
 
     linestyles = ['-', '--', '-.', ':']
@@ -318,7 +318,7 @@ def plot_summary_nist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], le
         ax3.set_ylim([min, max])
         ax3.legend(loc='upper right')
 
-    ax.set_title('FENIST', y=1.02)
+    ax.set_title('FEMNIST', y=1.02)
     ax.set_xlabel('Global rounds ' + '$K_g$')
     ax.set_ylabel('Training Loss')
     plt.savefig(dataset + str(loc_ep1[1]) + 'train_loss.pdf', bbox_inches='tight')
@@ -370,7 +370,7 @@ def plot_summary_nist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], le
         ax3.set_ylim([min, max])
         ax3.legend(loc='lower right')
 
-    ax.set_title('FENIST', y=1.02)
+    ax.set_title('FEMNIST', y=1.02)
     ax.set_xlabel('Global rounds ' + '$K_g$')
     ax.set_ylabel('Testing Accuracy', labelpad=15)
     plt.savefig(dataset + str(loc_ep1[1]) + 'test_accu.pdf', bbox_inches='tight')

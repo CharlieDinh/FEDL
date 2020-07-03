@@ -33,7 +33,7 @@ MODEL_PARAMS = {
 }
 
 
-def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01, hyper_learning_rate = 0.01, alg='fedprox', weight=True, batch_size=0, times = 1, rho = 0, dataset="mnist"):
+def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01, hyper_learning_rate = 0.01, alg='fedprox', weight=True, batch_size=0, times = 10, rho = 0, dataset="mnist"):
     ''' Parse command line arguments or load defaults '''
     parser = argparse.ArgumentParser()
 
@@ -148,7 +148,7 @@ def read_options(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_r
     return parsed, learner, optimizer
 
 
-def main(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01,hyper_learning_rate= 0.01, alg='fedprox', weight=True, batch_size=0, times =1, rho = 0, dataset="mnist"):
+def main(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01,hyper_learning_rate= 0.01, alg='fedprox', weight=True, batch_size=0, times =10, rho = 0, dataset="mnist"):
     # suppress tf warnings
     tf.logging.set_verbosity(tf.logging.WARN)
 
@@ -162,9 +162,15 @@ def main(num_users=5, loc_ep=10, Numb_Glob_Iters=100, lamb=0, learning_rate=0.01
     dataset = read_data(train_path, test_path)
 
     # call appropriate trainer
-    t = optimizer(options, learner, dataset)
-    t.train()
-
+    for i in range(times):
+        # Set seeds
+        random.seed(1 + i)
+        np.random.seed(12 + i)
+        tf.set_random_seed(123 + i)
+        print('......time for runing......',i)
+        t = optimizer(options, learner, dataset)
+        t.train(i)
+    average_data(num_users=num_users, loc_ep1=loc_ep, Numb_Glob_Iters=Numb_Glob_Iters, lamb=lamb, learning_rate=learning_rate, hyper_learning_rate = hyper_learning_rate, algorithms=alg, batch_size=batch_size, dataset=dataset, rho = rho, times = times)
 
 if __name__ == '__main__':
     algorithms_list = ["fedfedl","fedsgd","fedfedl","fedsgd","fedfedl","fedsgd","fedfedl","fedfedl"]

@@ -406,17 +406,17 @@ def plot_summary_linear(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[], l
     for i in range(num_al):
         ax1.plot(train_loss[i, 1:], linestyle=linestyles[i], label=algs_lbl[i] + ": "+ '$\eta = $' + str(hyper_learning_rate[i]) ,marker = markers[i],markevery=0.4, markersize=5)
 
-    ax1.hlines(y=0.035,xmin=0, xmax=200, linestyle='--',label = "optimal solution")
+    ax1.hlines(y=0.035,xmin=0, xmax=200, linestyle='--',label = "optimal solution", color= "m" )
     ax1.legend(loc='upper right')
-    ax1.set_ylim([0.02, 0.6])
+    ax1.set_ylim([0.02, 0.5])
     ax1.set_title('$\\rho = $' + str(rho[0]))
     ax1.grid(True)
     for i in range(num_al):
         str_rho = ', $\eta  = $' + str(rho[i])
         ax2.plot(train_loss[i+num_al, 1:], linestyle=linestyles[i], label=algs_lbl[i + num_al] + ": "+ '$\eta = $' + str(hyper_learning_rate[i+num_al]) ,marker = markers[i],markevery=0.4, markersize=5)
 
-    ax2.hlines(y=0.035,xmin=0, xmax=200, linestyle='--',label = "optimal solution")
-    ax2.set_ylim([0.02, 0.6])
+    ax2.hlines(y=0.035,xmin=0, xmax=200, linestyle='--',label = "optimal solution", color= "m" )
+    ax2.set_ylim([0.02, 0.5])
     #ax2.legend(loc='upper right')
     ax2.set_title('$\\rho = $' + str(rho[0+ num_al]))
     ax2.grid(True)
@@ -424,8 +424,9 @@ def plot_summary_linear(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[], l
         str_rho = ', $\rho  = $' + str(rho[i])
         ax3.plot(train_loss[i+num_al*2, 1:], linestyle=linestyles[i], label=algs_lbl[i + num_al*2]  + ": "+  '$\eta = $'  + str(hyper_learning_rate[i+num_al*2]) ,marker = markers[i], markevery=0.4, markersize=5)
         
-    ax3.hlines(y=0.035,xmin=0, xmax=200, linestyle='--',label = "optimal solution")
-    ax3.set_ylim([0.02, 0.6])
+    ax3.hlines(y=0.035, xmin=0, xmax=200, linestyle='--',
+               label="optimal solution", color="m")
+    ax3.set_ylim([0.02, 0.5])
     #ax3.legend(loc='upper right')
     ax3.set_title('$\\rho = $' + str(rho[0+ 2*num_al]))
     ax3.grid(True)

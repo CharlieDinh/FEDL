@@ -38,20 +38,20 @@ https://github.com/litian96/FedProx
   - To find the optimal solution: In folder data/linear_synthetic, run python3 optimal_solution_finding.py (also the value of $\rho$ need to be configured to find the optimal solution)
   - To generate result for the training process, run below commands:
     <pre><code>
-    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.1 --rho 1.4 --times  1
-    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.3 --rho 1.4 --times  1
-    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.5 --rho 1.4 --times  1
-    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.7 --rho 1.4 --times  1 
+    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  200 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.1 --rho 1.4 --times  1
+    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  200 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.3 --rho 1.4 --times  1
+    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  200 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.5 --rho 1.4 --times  1
+    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  200 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.7 --rho 1.4 --times  1 
 
-    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.1 --rho 2 --times  1
-    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.3 --rho 2 --times  1 
-    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.5 --rho 2 --times  1
-    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.7 --rho 2 --times  1 
+    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  200 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.1 --rho 2 --times  1
+    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  200 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.3 --rho 2 --times  1 
+    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  200 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.5 --rho 2 --times  1
+    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  200 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.7 --rho 2 --times  1 
 
-    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.1 --rho 5 --times  1
-    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.3 --rho 5 --times  1 
-    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.5 --rho 5 --times  1
-    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  800 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.7 --rho 5 --times  1 
+    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  200 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.1 --rho 5 --times  1
+    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  200 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.3 --rho 5 --times  1 
+    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  200 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.5 --rho 5 --times  1
+    python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  200 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.01 --hyper_learning_rate  0.7 --rho 5 --times  1 
     </code></pre>
   - All the train loss, testing accuracy, and training accuracy will be stored as h5py file in the folder "results".
   - To produce the figure for linear regression run <pre><code> python3 main_linear.py</code></pre>

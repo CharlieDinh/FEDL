@@ -114,10 +114,15 @@ def read_options(num_users=10, loc_ep=20, Numb_Glob_Iters=2, lamb=0, learning_ra
     else:
         model_path = '%s.%s.%s.%s' % (
             'flearn', 'models', parsed['dataset'], parsed['model'])
-
-    # mod = importlib.import_module(model_path)
-    import flearn.models.mnist.mclr as mclr
-    mod = mclr
+    #mod = importlib.import_module(model_path)
+    
+    if(parsed['dataset'] == "linear_synthetic"):
+        import flearn.models.linear_synthetic.linear as linear
+        mod = linear
+    else:
+        import flearn.models.mnist.mclr as mclr
+        mod = mclr
+    
     learner = getattr(mod, 'Model')
 
     # load selected trainer

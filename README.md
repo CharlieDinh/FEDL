@@ -55,6 +55,7 @@ https://github.com/litian96/FedProx
     </code></pre>
   - All the train loss, testing accuracy, and training accuracy will be stored as h5py file in the folder "results".
   - To produce the figure for linear regression run <pre><code> python3 main_linear.py</code></pre>
+  - Note that all users are selected in Synthetic data, so the experiments for each case of synthetic only need to be run once
   
 - For MNIST, run below commands:
     <pre><code>

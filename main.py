@@ -25,7 +25,8 @@ MODEL_PARAMS = {
     'fashion_mnist.cnn': (10,),
     'shakespeare.stacked_lstm': (80, 80, 256),  # seq_len, emb_dim, num_hidden
     'synthetic.mclr': (10, ),  # num_classes
-    'logistic_synthetic.mclr':(2,)  # num_classes
+    'logistic_synthetic.mclr':(2,),  # num_classes
+    'linear_synthetic.linear':(2,) 
 }
 
 
@@ -41,7 +42,7 @@ def read_options(num_users=10, loc_ep=20, Numb_Glob_Iters=2, lamb=0, learning_ra
     parser.add_argument('--dataset',
                         help='name of dataset;',
                         type=str,
-                        choices=["nist", "mnist", "logistic_synthetic"],
+                        choices=["nist", "mnist", "linear_synthetic"],
                         default=dataset)
     parser.add_argument('--model',
                         help='name of model;',
@@ -98,7 +99,7 @@ def read_options(num_users=10, loc_ep=20, Numb_Glob_Iters=2, lamb=0, learning_ra
                         default=times)
     parser.add_argument('--rho',
                         help='Condition number only for synthetic data;',
-                        type=int,
+                        type=float,
                         default=rho)
     try:
         parsed = vars(parser.parse_args())

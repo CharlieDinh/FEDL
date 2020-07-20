@@ -31,7 +31,7 @@ https://github.com/litian96/FedProx
 
 - To produce the experiments for Linear Regresstion:
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/44039773/86306668-3b85f480-bc58-11ea-8cae-b50e6f43eec0.png" height="300">
+  <img src="https://user-images.githubusercontent.com/44039773/87938445-f546e700-cad9-11ea-8138-a0b6f5e68419.png" height="300">
 </p>
 
   - In folder data/linear_synthetic, before generating linear data set, configure the value of $\rho$ for example rho = 1.4 (in the papers we use 3 different values of $\rho$: 1.4, 2, 5) then run: "python3 generate_linear_regession.py" to generate data corresponding to different values of $\rho$.
@@ -73,9 +73,9 @@ https://github.com/litian96/FedProx
     </code></pre>
     
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/44039773/86306670-3e80e500-bc58-11ea-8fec-5e80a3fcf08a.png" height="300">
+  <img src="https://user-images.githubusercontent.com/44039773/87938456-f8da6e00-cad9-11ea-8ed2-9dbf8f5d245d.png" height="300">
   
-  <img src="https://user-images.githubusercontent.com/44039773/86306673-3f197b80-bc58-11ea-9efa-c7df0d88eaff.png" height="300">
+  <img src="https://user-images.githubusercontent.com/44039773/87938464-fa0b9b00-cad9-11ea-9a5f-b68e52b4f13d.png" height="300">
 </p>
 
   - To produce the figure for MNIST experiment, run <pre><code> python3 main_mn.py</code></pre>
@@ -96,9 +96,9 @@ https://github.com/litian96/FedProx
     </code></pre>
     
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/44039773/86306675-3fb21200-bc58-11ea-9996-19c7f3898da5.png" height="300">
+  <img src="https://user-images.githubusercontent.com/44039773/87938469-fb3cc800-cad9-11ea-9af5-11f91ba14e5b.png" height="300">
   
-  <img src="https://user-images.githubusercontent.com/44039773/86306678-404aa880-bc58-11ea-97e7-fbfaa4df796e.png" height="300">
+  <img src="https://user-images.githubusercontent.com/44039773/87938476-fd068b80-cad9-11ea-95cb-72f075ab1471.png" height="300">
 </p>
 
   - To produce the figure for FEMNIST experiment, run <pre><code> python3 main_nist.py</code></pre>

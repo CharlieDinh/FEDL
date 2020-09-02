@@ -14,6 +14,8 @@ Updated version: https://github.com/CharlieDinh/FEDL/files/4947913/FEDL_updated.
 Our Code is developed based on the code from: 
 https://github.com/litian96/FedProx
 
+We develop Pytorch Version at: https://github.com/CharlieDinh/FEDL_pytorch
+
 # Software requirements:
 - numpy, scipy, tensorflow, Pillow, matplotlib.
 

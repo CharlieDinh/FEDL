@@ -496,3 +496,69 @@ def average_data(num_users, loc_ep1, Numb_Glob_Iters, lamb,learning_rate, hyper_
             hf.create_dataset('rs_train_loss', data=train_loss_data)
             hf.close()
     return 0
+
+def plot_summary_one_mnist(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[], learning_rate=[],hyper_learning_rate=[], algorithms_list=[], batch_size=0, rho = [], dataset = ""):
+    Numb_Algs = len(algorithms_list)
+    #glob_acc, train_acc, train_loss = get_training_data_value(
+    #    num_users, loc_ep1, Numb_Glob_Iters, lamb, learning_rate,hyper_learning_rate, algorithms_list, batch_size, dataset)
+    
+    glob_acc_, train_acc_, train_loss_ = get_training_data_value(num_users, loc_ep1, Numb_Glob_Iters, lamb, learning_rate, hyper_learning_rate, algorithms_list, batch_size, rho, dataset)
+    glob_acc =  average_smooth(glob_acc_, window='flat')
+    train_loss = average_smooth(train_loss_, window='flat')
+    train_acc = average_smooth(train_acc_, window='flat')
+    
+    plt.figure(1)
+    MIN = train_loss.min() - 0.001
+    start = 0
+    linestyles = ['-', '--', '-.', ':']
+    markers = ["o","v","s","*","x","P"]
+    algs_lbl = ["FEDL","FedAvg","FEDL","FedAvg"]
+    plt.grid(True)
+    for i in range(Numb_Algs):
+        stringbatch = str(batch_size[i])
+        if(stringbatch == '0'):
+            stringbatch = '$\infty$'
+        plt.plot(train_acc[i, 1:], linestyle=linestyles[i],marker = markers[i],label=algs_lbl[i] + " : "  + '$B = $' + stringbatch, markevery=0.4, markersize=5)
+
+    plt.legend(loc='lower right')
+    plt.ylabel('Training Accuracy')
+    plt.xlabel('Global rounds ' + '$K_g$')
+    plt.title(dataset.upper())
+    plt.ylim([0.85, train_acc.max()])
+    plt.savefig(dataset.upper() + str(loc_ep1[1]) + 'train_acc.png', bbox_inches="tight")
+    plt.savefig(dataset.upper() + str(loc_ep1[1]) + 'train_acc.pdf', bbox_inches="tight")
+    #plt.savefig(dataset + str(loc_ep1[1]) + 'train_acc.pdf')
+    plt.figure(2)
+
+    plt.grid(True)
+    for i in range(Numb_Algs):
+        stringbatch = str(batch_size[i])
+        if(stringbatch == '0'):
+            stringbatch = '$\infty$'
+        plt.plot(train_loss[i, 1:], linestyle=linestyles[i],marker = markers[i],label=algs_lbl[i] + " : "  + '$B = $' + stringbatch, markevery=0.4, markersize=5)
+        
+        #plt.plot(train_loss1[i, 1:], label=algs_lbl1[i])
+    plt.legend(loc='upper right')
+    plt.ylabel('Training Loss')
+    plt.xlabel('Global rounds')
+    plt.title(dataset.upper())
+    plt.ylim([train_loss.min(), 0.7])
+    plt.savefig(dataset.upper() + str(loc_ep1[1]) + 'train_loss.png', bbox_inches="tight")
+    plt.savefig(dataset.upper() + str(loc_ep1[1]) + 'train_loss.pdf', bbox_inches="tight")
+    #plt.savefig(dataset + str(loc_ep1[1]) + 'train_loss.pdf')
+    plt.figure(3)
+    plt.grid(True)
+    for i in range(Numb_Algs):
+        stringbatch = str(batch_size[i])
+        if(stringbatch == '0'):
+            stringbatch = '$\infty$'
+        plt.plot(glob_acc[i, 1:], linestyle=linestyles[i],marker = markers[i],label=algs_lbl[i] + " : "  + '$B = $' + stringbatch, markevery=0.4, markersize=5)
+        #plt.plot(glob_acc1[i, 1:], label=algs_lbl1[i])
+    plt.legend(loc='lower right')
+    plt.ylim([0.8, glob_acc.max() + 0.005])
+    plt.ylabel('Test Accuracy')
+    plt.xlabel('Global rounds ')
+    plt.title(dataset.upper())
+    plt.savefig(dataset.upper() + str(loc_ep1[1]) + 'glob_acc.png', bbox_inches="tight")
+    plt.savefig(dataset.upper() + str(loc_ep1[1]) + 'glob_acc.pdf', bbox_inches="tight")
+    #plt.savefig(dataset + str(loc_ep1[1]) + 'glob_acc.pdf')

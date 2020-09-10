@@ -6,14 +6,14 @@ import os
 np.random.seed(0)
 
 NUM_USER = 100
-rho = 5
+Kappa = 1.4
 Dim = 40 
 Noise = 0.05
 
-def generate_x(n_samples = 100, dim= 40, rho= 10):
+def generate_x(n_samples = 100, dim= 40, kappa= 10):
     '''Helper function to generate data''' 
 
-    powers = - np.log(rho) / np.log(dim) / 2
+    powers = - np.log(kappa) / np.log(dim) / 2
 
     S = np.power(np.arange(dim)+1, powers)
     X = np.random.randn(n_samples, dim) # Random standard Gaussian data
@@ -21,13 +21,13 @@ def generate_x(n_samples = 100, dim= 40, rho= 10):
     covarient_matrix = np.cov(X)
     print("Covarient matrix:",covarient_matrix)                            # Conditioning
     print("np.diag(S)", np.diag(S))
-    return X, 1, 1/rho, np.diag(S)
+    return X, 1, 1/kappa, np.diag(S)
 
-def generate_linear_data(num_users=100, rho=10, dim=40, noise_ratio=0.05):
+def generate_linear_data(num_users=100, kappa=10, dim=40, noise_ratio=0.05):
 
     '''Helper function to generate data'''
     # generate power S
-    powers = - np.log(rho) / np.log(dim) / 2
+    powers = - np.log(kappa) / np.log(dim) / 2
     DIM = np.arange(dim)
 
     # Covariance matrix for X
@@ -39,18 +39,20 @@ def generate_linear_data(num_users=100, rho=10, dim=40, noise_ratio=0.05):
     samples_per_user = np.random.lognormal(4, 2, num_users).astype(int) + 500
     indices_per_user = np.insert(samples_per_user.cumsum(), 0, 0, 0)
     num_total_samples = indices_per_user[-1]
-    sigma_range = 5
-    sig = np.random.uniform(0, sigma_range)
-    # Create mean of data for each user, each user will have different distribution
-    #mean_X = np.array([np.random.randn(dim) for _ in range(num_users)])
 
+    # Create mean of data for each user, each user will have different distribution
+    sig = np.random.uniform(0.1, 10)
+    mean = np.random.uniform(low=-0.1, high=0.1)
+    cov = np.random.uniform(low=0.0, high=0.01)
+    #print("mean -cov", mean,cov)
+    mean_X = np.random.normal(mean, cov, dim)
 
     X_total = np.zeros((num_total_samples, dim))
     y_total = np.zeros(num_total_samples)
 
     for n in range(num_users):
         # Generate data
-        X_n = np.random.multivariate_normal([0]*dim, sig * np.diag(S), samples_per_user[n])
+        X_n = np.random.multivariate_normal(mean_X, sig * np.diag(S), samples_per_user[n])
         X_total[indices_per_user[n]:indices_per_user[n+1], :] = X_n
 
     # Normalize all X's using LAMBDA
@@ -60,6 +62,7 @@ def generate_linear_data(num_users=100, rho=10, dim=40, noise_ratio=0.05):
     # Generate weights and labels
     W = np.random.rand(dim)
     y_total = X_total.dot(W)
+    noise_variance = 0.01
     y_total = y_total + np.sqrt(noise_ratio) * np.random.randn(num_total_samples)
 
     for n in range(num_users):
@@ -72,10 +75,10 @@ def generate_linear_data(num_users=100, rho=10, dim=40, noise_ratio=0.05):
 
     print("=" * 80)
     print("Generated synthetic data for logistic regression successfully.")
-    print("Summary of the generated data:".format(rho))
+    print("Summary of the generated data:".format(kappa))
     print("    Total # users       : {}".format(num_users))
     print("    Input dimension     : {}".format(dim))
-    print("    rho                 : {}".format(rho))
+    print("    rho                 : {}".format(kappa))
     print("    Total # of samples  : {}".format(num_total_samples))
     print("    Minimum # of samples: {}".format(np.min(samples_per_user)))
     print("    Maximum # of samples: {}".format(np.max(samples_per_user)))
@@ -94,7 +97,7 @@ def save_total_data():
         if not os.path.exists(path):
             os.makedirs(path)
 
-    X, y = generate_linear_data(NUM_USER, rho, Dim, Noise)
+    X, y = generate_linear_data(NUM_USER, Kappa, Dim, Noise)
 
     # Create data structure
     train_data = {'users': [], 'user_data': {}, 'num_samples': []}

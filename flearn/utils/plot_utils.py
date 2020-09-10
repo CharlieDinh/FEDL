@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import h5py
 import numpy as np
 from mpl_toolkits.axes_grid1.inset_locator import zoomed_inset_axes, mark_inset
-
+plt.rcParams.update({'font.size': 14})
 
 def simple_read_data(loc_ep, alg):
     hf = h5py.File("./results/"+'{}_{}.h5'.format(alg, loc_ep), 'r')
@@ -196,7 +196,7 @@ def plot_summary_mnist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], l
 
     ax.set_title('MNIST', y=1.02)
     ax.set_xlabel('Global rounds ' + '$K_g$')
-    ax.set_ylabel('Training Loss',x=1.03)
+    ax.set_ylabel('Training Loss', labelpad=15)
     plt.savefig(dataset + str(loc_ep1[1]) +
                 'train_loss.pdf', bbox_inches='tight')
     plt.savefig(dataset + str(loc_ep1[1]) +
@@ -320,7 +320,7 @@ def plot_summary_nist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], le
 
     ax.set_title('FEMNIST', y=1.02)
     ax.set_xlabel('Global rounds ' + '$K_g$')
-    ax.set_ylabel('Training Loss')
+    ax.set_ylabel('Training Loss', labelpad=15)
     plt.savefig(dataset + str(loc_ep1[1]) + 'train_loss.pdf', bbox_inches='tight')
     plt.savefig(dataset + str(loc_ep1[1]) + 'train_loss.png', bbox_inches='tight')
 

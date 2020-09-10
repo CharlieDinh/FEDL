@@ -38,8 +38,8 @@ We develop Pytorch Version at: https://github.com/CharlieDinh/FEDL_pytorch
   <img src="https://user-images.githubusercontent.com/44039773/87938445-f546e700-cad9-11ea-8138-a0b6f5e68419.png" height="300">
 </p>
 
-  - In folder data/linear_synthetic, before generating linear data set, configure the value of $\rho$ for example rho = 1.4 (in the papers we use 3 different values of $\rho$: 1.4, 2, 5) then run: "python3 generate_linear_regession.py" to generate data corresponding to different values of $\rho$.
-  - To find the optimal solution: In folder data/linear_synthetic, run python3 optimal_solution_finding.py (also the value of $\rho$ need to be configured to find the optimal solution)
+  - In folder data/linear_synthetic, before generating linear data set, configure the value of $\rho$ for example rho = 1.4 (in the papers we use 3 different values of $\rho$: 1.4, 2, 5) then run: "python3 generate_linear_regession_update.py" to generate data corresponding to different values of $\rho$.
+  - To find the optimal solution: In folder data/linear_synthetic, run python3 optimal_solution_finding_update.py (also the value of $\rho$ need to be configured to find the optimal solution)
   - To generate result for the training process, run below commands:
     <pre><code>
     python3 -u main.py --dataset linear_synthetic --optimizer fedfedl --model linear.py --num_rounds  200 --clients_per_round 100 --batch_size 0 --num_epochs  20 --learning_rate  0.04 --hyper_learning_rate  0.01 --rho 1.4 --times  1

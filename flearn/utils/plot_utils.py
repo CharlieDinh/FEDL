@@ -174,7 +174,7 @@ def plot_summary_mnist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], l
         ax1.plot(train_loss[i, 1:], linestyle=linestyles[i],
                  label=algs_lbl[i] + " : "  + '$B = $' + stringbatch+ ', $\eta = $'+ str(hyper_learning_rate[i]))
         ax1.set_ylim([min, max])
-        ax1.legend(loc='upper right')
+        ax1.legend(loc='upper right', prop={'size': 10})
 
     for i in range(num_al):
         stringbatch = str(batch_size[i+2])
@@ -183,7 +183,7 @@ def plot_summary_mnist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], l
         ax2.plot(train_loss[i+num_al, 1:], linestyle=linestyles[i],
                  label=algs_lbl[i + num_al] + " : "  + '$B = $' + stringbatch+ ', $\eta = $'+ str(hyper_learning_rate[i+num_al]))
         ax2.set_ylim([min, max])
-        ax2.legend(loc='upper right')
+        ax2.legend(loc='upper right', prop={'size': 10})
 
     for i in range(4):
         stringbatch = str(batch_size[i+4])
@@ -192,7 +192,7 @@ def plot_summary_mnist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], l
         ax3.plot(train_loss[i+num_al*2, 1:], linestyle=linestyles[i],
                  label=algs_lbl[i + num_al*2] + " : "  + '$B = $' + stringbatch+ ', $\eta = $'+ str(hyper_learning_rate[i+num_al*2]))
         ax3.set_ylim([min, max])
-        ax3.legend(loc='upper right')
+        ax3.legend(loc='upper right', prop={'size': 10})
 
     ax.set_title('MNIST', y=1.02)
     ax.set_xlabel('Global rounds ' + '$K_g$')
@@ -228,7 +228,7 @@ def plot_summary_mnist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], l
         ax1.plot(glob_acc[i, 1:], linestyle=linestyles[i],
                  label=algs_lbl[i] + " : "  + '$B = $' + stringbatch + ', $\eta = $'+ str(hyper_learning_rate[i]))
         ax1.set_ylim([min, max])
-        ax1.legend(loc='lower right')
+        ax1.legend(loc='lower right', prop={'size': 10})
 
     for i in range(num_al):
         stringbatch = str(batch_size[i+2])
@@ -237,7 +237,7 @@ def plot_summary_mnist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], l
         ax2.plot(glob_acc[i+num_al, 1:], linestyle=linestyles[i],
                  label=algs_lbl[i + num_al] + " : "  + '$B = $' + stringbatch+ ', $\eta = $'+ str(hyper_learning_rate[i+num_al*1]))
         ax2.set_ylim([min, max])
-        ax2.legend(loc='lower right')
+        ax2.legend(loc='lower right', prop={'size': 10})
 
     for i in range(4):
         stringbatch = str(batch_size[i+4])
@@ -246,7 +246,7 @@ def plot_summary_mnist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], l
         ax3.plot(glob_acc[i+num_al*2, 1:], linestyle=linestyles[i],
                  label=algs_lbl[i + num_al*2] + " : " + '$B = $' + stringbatch + ', $\eta = $'+ str(hyper_learning_rate[i+num_al*2]))
         ax3.set_ylim([min, max])
-        ax3.legend(loc='lower right')
+        ax3.legend(loc='lower right', prop={'size': 10})
 
     ax.set_title('MNIST', y=1.02)
     ax.set_xlabel('Global rounds ' + '$K_g$')
@@ -298,7 +298,7 @@ def plot_summary_nist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], le
         ax1.plot(train_loss[i, 1:], linestyle=linestyles[i],
                  label=algs_lbl[i] + " : " + '$B = $' + stringbatch + ', $\eta = $' + str(hyper_learning_rate[i]) + ', $K_l = $' + str(loc_ep1[i]))
         ax1.set_ylim([min, max])
-        ax1.legend(loc='upper right')
+        ax1.legend(loc='upper right', prop={'size': 10})
 
     for i in range(num_al):
         stringbatch = str(batch_size[i+num_al])
@@ -307,7 +307,7 @@ def plot_summary_nist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], le
         ax2.plot(train_loss[i+num_al, 1:], linestyle=linestyles[i],
                  label=algs_lbl[i + num_al] + " : " + '$B = $' + stringbatch + ', $\eta = $' + str(hyper_learning_rate[i+num_al]) + ', $K_l = $' + str(loc_ep1[i+ num_al]))
         ax2.set_ylim([min, max])
-        ax2.legend(loc='upper right')
+        ax2.legend(loc='upper right', prop={'size': 10})
 
     for i in range(num_al):
         stringbatch = str(batch_size[i+num_al*2])
@@ -316,7 +316,7 @@ def plot_summary_nist(num_users=100, loc_ep1=[], Numb_Glob_Iters=10, lamb=[], le
         ax3.plot(train_loss[i+num_al*2, 1:], linestyle=linestyles[i],
                  label=algs_lbl[i + num_al*2] + " : " + '$B = $' + stringbatch + ', $\eta = $' + str(hyper_learning_rate[i+num_al*2]) + ', $K_l = $' + str(loc_ep1[i + num_al*2]))
         ax3.set_ylim([min, max])
-        ax3.legend(loc='upper right')
+        ax3.legend(loc='upper right', prop={'size': 10})
 
     ax.set_title('FEMNIST', y=1.02)
     ax.set_xlabel('Global rounds ' + '$K_g$')
@@ -407,7 +407,7 @@ def plot_summary_linear(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[], l
         ax1.plot(train_loss[i, 1:], linestyle=linestyles[i], label=algs_lbl[i] + ": "+ '$\eta = $' + str(hyper_learning_rate[i]) ,marker = markers[i],markevery=0.4, markersize=5)
 
     ax1.hlines(y=0.035,xmin=0, xmax=200, linestyle='--',label = "optimal solution", color= "m" )
-    ax1.legend(loc='upper right')
+    ax1.legend(loc='upper right', prop={'size': 10})
     ax1.set_ylim([0.02, 0.5])
     ax1.set_title('$\\rho = $' + str(rho[0]))
     ax1.grid(True)

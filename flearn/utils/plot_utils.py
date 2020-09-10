@@ -430,7 +430,7 @@ def plot_summary_linear(num_users=100, loc_ep1=5, Numb_Glob_Iters=10, lamb=[], l
     #ax3.legend(loc='upper right')
     ax3.set_title('$\\rho = $' + str(rho[0+ 2*num_al]))
     ax3.grid(True)
-    ax.set_title('Linear Synthetic', y=1.1)
+    ax.set_title('Synthetic dataset', y=1.1)
     ax.set_xlabel('Global rounds ' + '$K_g$')
     ax.set_ylabel('Training Loss')
     plt.savefig(dataset + str(loc_ep1[1]) + 'train_loss.pdf', bbox_inches='tight')

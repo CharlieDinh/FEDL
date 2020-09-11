@@ -106,3 +106,5 @@ We develop Pytorch Version at: https://github.com/CharlieDinh/FEDL_pytorch
 </p>
 
   - To produce the figure for FEMNIST experiment, run <pre><code> python3 main_nist.py</code></pre>
+  
+- For non-convex experiment:

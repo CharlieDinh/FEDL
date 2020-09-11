@@ -11,10 +11,10 @@ https://arxiv.org/abs/1910.13067
 
 Updated version: https://github.com/CharlieDinh/FEDL/files/5205902/FEDL_journal_updated.pdf
 
-Our Code is developed based on the code from: 
+This version is developed based on the code from: 
 https://github.com/litian96/FedProx
 
-We develop Pytorch Version at: https://github.com/CharlieDinh/FEDL_pytorch
+# We develop the new version using Pytorch at: https://github.com/CharlieDinh/FEDL_pytorch
 
 # Software requirements:
 - numpy, scipy, tensorflow, Pillow, matplotlib.

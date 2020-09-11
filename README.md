@@ -9,7 +9,7 @@ Canh T. Dinh, Nguyen H. Tran, Minh N. H. Nguyen, Choong Seon Hong, Wei Bao, Albe
 Link:
 https://arxiv.org/abs/1910.13067
 
-Updated version: https://github.com/CharlieDinh/FEDL/files/4947913/FEDL_updated.pdf
+Updated version: https://github.com/CharlieDinh/FEDL/files/5205902/FEDL_journal_updated.pdf
 
 Our Code is developed based on the code from: 
 https://github.com/litian96/FedProx
@@ -35,7 +35,7 @@ We develop Pytorch Version at: https://github.com/CharlieDinh/FEDL_pytorch
 
 - To produce the experiments for Linear Regresstion:
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/44039773/87938445-f546e700-cad9-11ea-8138-a0b6f5e68419.png" height="300">
+  <img src="https://user-images.githubusercontent.com/44039773/92860589-c561f300-f43b-11ea-9e47-0d63daccfb09.png" height="300">
 </p>
 
   - In folder data/linear_synthetic, before generating linear data set, configure the value of $\rho$ for example rho = 1.4 (in the papers we use 3 different values of $\rho$: 1.4, 2, 5) then run: "python3 generate_linear_regession_update.py" to generate data corresponding to different values of $\rho$.

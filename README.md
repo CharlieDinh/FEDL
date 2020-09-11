@@ -9,7 +9,7 @@ Canh T. Dinh, Nguyen H. Tran, Minh N. H. Nguyen, Choong Seon Hong, Wei Bao, Albe
 Link:
 https://arxiv.org/abs/1910.13067
 
-Updated version: https://github.com/CharlieDinh/FEDL/files/5205902/FEDL_journal_updated.pdf
+Paper Link: https://arxiv.org/abs/1910.13067 and updated version: https://github.com/CharlieDinh/FEDL/files/5205902/FEDL_journal_updated.pdf
 
 This version is developed based on the code from: 
 https://github.com/litian96/FedProx

@@ -1,4 +1,4 @@
-# Federated Learning over Wireless Networks: Convergence Analysis and Resource Allocation
+# Federated Learning over Wireless Networks: Convergence Analysis and Resource Allocation (Accepted by IEEE/ACM Transactions on Networking (TON))
 
 This repository is for the Experiment Section of the paper:
 "Federated Learning over Wireless Networks: Convergence Analysis and Resource Allocation"

@@ -6,9 +6,6 @@ This repository is for the Experiment Section of the paper:
 Authors:
 Canh T. Dinh, Nguyen H. Tran, Minh N. H. Nguyen, Choong Seon Hong, Wei Bao, Albert Zomaya, Vincent Gramoli
 
-Link:
-https://arxiv.org/abs/1910.13067
-
 Paper Link: https://arxiv.org/abs/1910.13067 
 
 This version is developed based on the code from: 

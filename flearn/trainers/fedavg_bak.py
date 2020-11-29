@@ -1,6 +1,7 @@
 import numpy as np
 from tqdm import trange, tqdm
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior() 
 from flearn.utils.tf_utils import process_grad
 from flearn.optimizer.proxsgd import PROXSGD
 from .fedbase import BaseFedarated

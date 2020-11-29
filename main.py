@@ -5,7 +5,8 @@ import argparse
 import importlib
 import random
 import os
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 from flearn.utils.plot_utils import *
 from flearn.utils.model_utils import read_data
 import matplotlib

@@ -1,5 +1,6 @@
 import numpy as np
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior() 
 from tqdm import trange
 
 from flearn.utils.model_utils import batch_data, suffer_data, get_random_batch_sample
@@ -45,7 +46,7 @@ class Model(object):
         features = tf.placeholder(
             tf.float32, shape=[None, 784], name='features')
         labels = tf.placeholder(tf.int64, shape=[None, ], name='labels')
-        logits = tf.layers.dense(inputs=features, units=self.num_classes, kernel_regularizer=tf.contrib.layers.l2_regularizer(
+        logits = tf.layers.dense(inputs=features, units=self.num_classes, kernel_regularizer=tf.keras.regularizers.L2(
             0.1))  # 0.001  #Linear layer without regularizer
         predictions = {
             "classes": tf.argmax(input=logits, axis=1),
